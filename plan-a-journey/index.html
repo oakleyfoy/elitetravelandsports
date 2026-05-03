@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Plan a private or hosted international tennis journey with Elite Travel and Sports Tours USA."
+    />
+    <title>Plan a Journey | Elite Travel and Sports Tours USA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="preload" href="/assets/elite-icon-transparent.png" as="image" type="image/png" />
+  </head>
+  <body class="interior-page plan-page">
+    <header class="site-header" data-header>
+      <a class="brand" href="/" aria-label="Elite Travel and Sports Tours USA home">
+        <img
+          class="brand-logo"
+          src="/assets/elite-icon-transparent.png"
+          alt=""
+          width="58"
+          height="58"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <span>
+          <strong>Elite Travel &amp; Sports Tours</strong>
+          <small>USA</small>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="primary-nav" data-nav>
+        <a href="/about/">About</a>
+        <a href="/experiences/">Experiences</a>
+        <a href="/destinations/">Destinations</a>
+        <a href="/process/">The Process</a>
+        <a href="/concierge/">Concierge</a>
+        <a class="header-cta" href="/plan-a-journey/" aria-current="page">Plan a Journey</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="interior-hero">
+        <div class="interior-hero-inner">
+          <div>
+            <p class="eyebrow">Plan a Journey</p>
+            <h1>Plan a Journey</h1>
+            <p>Tell us what kind of tennis travel experience you want to create.</p>
+          </div>
+          <div class="interior-hero-panel visual-destination" aria-hidden="true">
+            <span>The first conversation matters.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="interior-section">
+        <div class="interior-section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Inquiry</p>
+            <h2>Start with the shape of the trip.</h2>
+            <p>
+              Elite begins with a conversation about group size, destination interest, sport focus, travel style, timing,
+              hotel expectations, and desired level of support.
+            </p>
+          </div>
+
+          <div class="inquiry-layout">
+            <!-- TODO: Connect this front-end inquiry form to the selected CRM, email service, or form backend. -->
+            <form class="inquiry-form" action="#" method="post">
+              <label class="form-field">
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="form-field">
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" />
+              </label>
+              <label class="form-field">
+                <span>Preferred Sport</span>
+                <select name="preferred-sport">
+                  <option>Tennis</option>
+                  <option>Training-heavy tennis weeks</option>
+                  <option>Prefer to discuss</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Travel Type</span>
+                <select name="travel-type">
+                  <option>Hosted departure</option>
+                  <option>Private group</option>
+                  <option>Club trip</option>
+                  <option>Couple or family</option>
+                  <option>Not sure yet</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Destination Interest</span>
+                <input type="text" name="destination-interest" placeholder="Morocco, Portugal, Spain..." />
+              </label>
+              <label class="form-field">
+                <span>Estimated Group Size</span>
+                <input type="text" name="group-size" placeholder="2, 6, 12..." />
+              </label>
+              <label class="form-field">
+                <span>Preferred Travel Window</span>
+                <input type="text" name="travel-window" placeholder="Spring, June, flexible..." />
+              </label>
+              <label class="form-field full">
+                <span>Desired Hotel / Travel Style</span>
+                <input type="text" name="travel-style" placeholder="Boutique luxury, villa, resort, private..." />
+              </label>
+              <label class="form-field full">
+                <span>Notes / What are you hoping to create?</span>
+                <textarea name="notes"></textarea>
+              </label>
+              <button class="button button-primary" type="submit">Submit Inquiry</button>
+            </form>
+
+            <aside class="form-trust">
+              <strong>No obligation. A considered next step.</strong>
+              <p>
+                Elite will review your request and respond with the appropriate next step based on timing, destination,
+                group profile, and trip format.
+              </p>
+              <p>
+                The first step is not booking. It is understanding whether the journey should be private, hosted,
+                destination-led, training-led, or something more personal.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="interior-cta">
+        <div class="interior-cta-inner">
+          <p class="eyebrow">Private Planning Desk</p>
+          <h2>The first step is not booking. It is understanding the journey.</h2>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Elite Travel and Sports Tours USA</strong>
+        <p>Curated international tennis journeys for private travelers, clubs, and hosted groups.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="/about/">About</a>
+        <a href="/experiences/">Experiences</a>
+        <a href="/destinations/">Destinations</a>
+        <a href="/process/">The Process</a>
+        <a href="/concierge/">Concierge</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="/plan-a-journey/">Plan a Journey</a>
+        <a href="mailto:info@elitetravelsportsusa.com">info@elitetravelsportsusa.com</a>
+        <span>&copy; <span data-year></span> Elite Travel and Sports Tours USA</span>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

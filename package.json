@@ -1,0 +1,12 @@
+{
+  "name": "elite-sports-website",
+  "private": true,
+  "scripts": {
+    "qa:viewport": "playwright test tests/viewport-qa.spec.js",
+    "serve": "serve -l 8765 ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "serve": "^14.2.4"
+  }
+}
