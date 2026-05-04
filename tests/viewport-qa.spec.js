@@ -84,8 +84,21 @@ test.describe("viewport + nav + form QA", () => {
       await page.locator('footer.site-footer .footer-contact a[href="/plan-a-journey/"]').click();
       await expect(page).toHaveURL(/\/plan-a-journey\/?$/);
 
-      // ----- Plan a Journey: fill + submit (front-end) -----
+      // ----- Plan a Journey: mock Formspree, submit AJAX (no full navigation) -----
       await page.goto("/plan-a-journey/", { waitUntil: "domcontentloaded" });
+
+      await page.route("**/formspree.io/**", (route) => {
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ ok: true }),
+        });
+      });
+
+      await page.evaluate(() => {
+        const f = document.querySelector("[data-plan-inquiry]");
+        if (f) f.setAttribute("action", "https://formspree.io/f/e2emocktest");
+      });
 
       await page.locator('.inquiry-form input[name="name"]').fill("QA Test Guest");
       await page.locator('.inquiry-form input[name="email"]').fill("qa+viewport@example.test");
@@ -98,10 +111,10 @@ test.describe("viewport + nav + form QA", () => {
       await page.locator('.inquiry-form input[name="travel-style"]').fill("Boutique hotel");
       await page.locator('.inquiry-form textarea[name="notes"]').fill("Playwright viewport QA submit — no backend.");
 
-      await Promise.all([
-        page.waitForNavigation({ waitUntil: "domcontentloaded" }),
-        page.locator('.inquiry-form button[type="submit"]').click(),
-      ]);
+      await page.locator('.inquiry-form button[type="submit"]').click();
+      await expect(page.locator(".inquiry-form-feedback--success")).toBeVisible({
+        timeout: 15000,
+      });
       await expect(page).toHaveURL(/\/plan-a-journey\/?/);
 
       expect(errors, `Console/page errors at ${vp.name}:\n${errors.join("\n")}`).toEqual([]);

@@ -3906,6 +3906,103 @@ h3 {
   background: rgba(255, 250, 242, 0.04);
 }
 
+/* Plan inquiry — Formspree feedback + honeypot (states only). */
+.plan-page form.inquiry-form {
+  position: relative;
+}
+
+.plan-page .inquiry-honeypot {
+  position: absolute;
+  overflow: hidden;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.plan-page .inquiry-form-feedback {
+  grid-column: 1 / -1;
+  padding: clamp(22px, 3.5vw, 30px) clamp(20px, 3vw, 28px);
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.plan-page .inquiry-form-feedback[hidden] {
+  display: none;
+}
+
+.plan-page .inquiry-form-feedback--success {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(189, 149, 86, 0.14), transparent 13rem),
+    rgba(255, 250, 242, 0.07);
+  border: 1px solid rgba(189, 149, 86, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(255, 250, 242, 0.06),
+    0 18px 48px rgba(0, 0, 0, 0.12);
+}
+
+.plan-page .inquiry-form-feedback--success strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.42rem, 2.35vw, 1.92rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.plan-page .inquiry-form-feedback--success p {
+  margin: 0;
+  max-width: 52ch;
+  color: rgba(255, 250, 242, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.72;
+}
+
+.plan-page .inquiry-form-feedback--error {
+  background: rgba(38, 12, 8, 0.35);
+  border: 1px solid rgba(214, 120, 90, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(255, 250, 242, 0.06),
+    0 14px 40px rgba(0, 0, 0, 0.2);
+}
+
+.plan-page .inquiry-form-feedback--error strong {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 240, 232, 0.98);
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.plan-page .inquiry-form-feedback--error p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.68;
+}
+
+.plan-page .inquiry-form .form-field.is-invalid input,
+.plan-page .inquiry-form .form-field.is-invalid select,
+.plan-page .inquiry-form .form-field.is-invalid textarea {
+  border-color: rgba(214, 120, 90, 0.65);
+  box-shadow:
+    0 0 0 3px rgba(214, 120, 90, 0.12),
+    0 0 0 1px rgba(255, 250, 242, 0.08);
+}
+
+.plan-page .inquiry-form [type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
 .plan-page .interior-cta {
   padding: 56px 0 72px;
 }

@@ -107,8 +107,27 @@
           </div>
 
           <div class="inquiry-layout">
-            <!-- TODO: Connect this front-end inquiry form to the selected CRM, email service, or form backend. -->
-            <form class="inquiry-form" action="#" method="post">
+            <!-- Production: Replace REPLACE_ME with your Formspree form ID (dashboard → Recipient: info@elitetravelsportsusa.com). -->
+            <form
+              class="inquiry-form"
+              action="https://formspree.io/f/REPLACE_ME"
+              method="post"
+              data-plan-inquiry
+              novalidate
+            >
+              <input
+                type="text"
+                class="inquiry-honeypot"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <input
+                type="hidden"
+                name="_subject"
+                value="Plan a Journey inquiry · Elite Travel &amp; Sports Tours USA"
+              />
               <label class="form-field">
                 <span>Name</span>
                 <input type="text" name="name" autocomplete="name" required />
@@ -160,6 +179,7 @@
                 <textarea name="notes"></textarea>
               </label>
               <button class="button button-primary" type="submit">Submit Inquiry</button>
+              <div class="inquiry-form-feedback" data-inquiry-feedback hidden tabindex="-1"></div>
             </form>
 
             <aside class="form-trust">
@@ -203,6 +223,7 @@
         <span>&copy; <span data-year></span> Elite Travel and Sports Tours USA</span>
       </div>
     </footer>
-    <script src="../script.js"></script>
+    <script src="../plan-inquiry.js" defer></script>
+    <script src="../script.js" defer></script>
   </body>
 </html>
