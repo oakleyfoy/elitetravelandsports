@@ -107,11 +107,10 @@
           </div>
 
           <div class="inquiry-layout">
-            <!-- Production: Replace REPLACE_ME with your Formspree form ID (dashboard → Recipient: info@elitetravelsportsusa.com). -->
             <form
               class="inquiry-form"
-              action="https://formspree.io/f/REPLACE_ME"
-              method="post"
+              action="https://formspree.io/f/xqenqerv"
+              method="POST"
               data-plan-inquiry
               novalidate
             >
@@ -123,10 +122,11 @@
                 autocomplete="off"
                 aria-hidden="true"
               />
+              <input type="hidden" name="_replyto" value="" />
               <input
                 type="hidden"
                 name="_subject"
-                value="Plan a Journey inquiry · Elite Travel &amp; Sports Tours USA"
+                value="New Elite Travel Plan a Journey Inquiry"
               />
               <label class="form-field">
                 <span>Name</span>
@@ -142,37 +142,45 @@
               </label>
               <label class="form-field">
                 <span>Preferred Sport</span>
-                <select name="preferred-sport">
-                  <option>Tennis</option>
-                  <option>Training-heavy tennis weeks</option>
-                  <option>Prefer to discuss</option>
+                <select name="preferred_sport">
+                  <option value="Tennis">Tennis</option>
+                  <option value="Training-heavy tennis weeks">Training-heavy tennis weeks</option>
+                  <option value="Prefer to discuss">Prefer to discuss</option>
                 </select>
               </label>
               <label class="form-field">
                 <span>Travel Type</span>
-                <select name="travel-type">
-                  <option>Hosted departure</option>
-                  <option>Private group</option>
-                  <option>Club trip</option>
-                  <option>Couple or family</option>
-                  <option>Not sure yet</option>
+                <select name="travel_type">
+                  <option value="Hosted departure">Hosted departure</option>
+                  <option value="Private group">Private group</option>
+                  <option value="Club trip">Club trip</option>
+                  <option value="Couple or family">Couple or family</option>
+                  <option value="Not sure yet">Not sure yet</option>
                 </select>
               </label>
               <label class="form-field">
                 <span>Destination Interest</span>
-                <input type="text" name="destination-interest" placeholder="Morocco, Portugal, Spain..." />
+                <input
+                  type="text"
+                  name="destination_interest"
+                  placeholder="Morocco, Portugal, Spain..."
+                />
               </label>
               <label class="form-field">
                 <span>Estimated Group Size</span>
-                <input type="text" name="group-size" placeholder="2, 6, 12..." />
+                <input type="text" name="estimated_group_size" placeholder="2, 6, 12..." />
               </label>
               <label class="form-field">
                 <span>Preferred Travel Window</span>
-                <input type="text" name="travel-window" placeholder="Spring, June, flexible..." />
+                <input type="text" name="preferred_travel_window" placeholder="Spring, June, flexible..." />
               </label>
               <label class="form-field full">
                 <span>Desired Hotel / Travel Style</span>
-                <input type="text" name="travel-style" placeholder="Boutique luxury, villa, resort, private..." />
+                <input
+                  type="text"
+                  name="desired_hotel_travel_style"
+                  placeholder="Boutique luxury, villa, resort, private..."
+                />
               </label>
               <label class="form-field full">
                 <span>Notes / What are you hoping to create?</span>

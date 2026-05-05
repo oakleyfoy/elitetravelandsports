@@ -10,7 +10,6 @@
   var submitting = false;
   var submitBtn = form.querySelector('[type="submit"]');
   var feedback = document.querySelector("[data-inquiry-feedback]");
-  var PLACEHOLDER = "REPLACE_ME";
 
   function hideFeedback() {
     if (!feedback) return;
@@ -106,18 +105,22 @@
     e.preventDefault();
     hideFeedback();
 
-    var endpoint = form.getAttribute("action") || "";
-    if (endpoint.indexOf(PLACEHOLDER) !== -1) {
+    var endpoint = (form.getAttribute("action") || "").trim();
+    if (!/^https:\/\/formspree\.io\//i.test(endpoint)) {
       showFeedback(
         "error",
-        "Form is not configured for delivery yet.",
-        "The site administrator must set the plan form action to your Formspree URL (replace REPLACE_ME with the id from formspree.io).",
+        "This form cannot be sent right now.",
+        "Please try again shortly or reach us directly at info@elitetravelsportsusa.com.",
       );
       return;
     }
 
     if (submitting) return;
     if (!validate()) return;
+
+    var emailInput = form.querySelector('[name="email"]');
+    var replyEl = form.querySelector('[name="_replyto"]');
+    if (replyEl && emailInput) replyEl.value = emailInput.value.trim();
 
     setBusy(true);
 
@@ -139,8 +142,8 @@
       if (res.ok) {
         showFeedback(
           "success",
-          "Your inquiry has been received.",
-          "Elite Travel & Sports Tours USA will reply from info@elitetravelsportsusa.com once your request has been reviewed.",
+          "Thank you—your journey notes are received.",
+          "The Elite planning desk will reply personally from info@elitetravelsportsusa.com once your request has been considered.",
         );
         form.reset();
         clearFieldErrors();
