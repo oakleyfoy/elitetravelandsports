@@ -3495,16 +3495,81 @@ h3 {
 }
 
 .destinations-page .morocco-brochure-card p {
-  flex: 1;
   margin: 0;
   color: rgba(255, 250, 242, 0.72);
   font-size: 0.94rem;
   line-height: 1.65;
 }
 
-.destinations-page .morocco-brochure-link {
+.destinations-page .morocco-program-price {
   align-self: flex-start;
-  margin-top: 4px;
+  padding: 7px 11px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(201, 161, 91, 0.1);
+  border: 1px solid rgba(201, 161, 91, 0.26);
+  border-radius: 999px;
+}
+
+.destinations-page .morocco-program-details {
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 250, 242, 0.12);
+}
+
+.destinations-page .morocco-program-details summary {
+  padding: 15px 0 3px;
+  color: rgba(255, 250, 242, 0.94);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style-position: outside;
+}
+
+.destinations-page .morocco-program-details summary::marker {
+  color: var(--gold);
+}
+
+.destinations-page .morocco-program-details[open] summary {
+  margin-bottom: 14px;
+}
+
+.destinations-page .morocco-itinerary {
+  display: grid;
+  gap: 12px;
+}
+
+.destinations-page .morocco-itinerary section {
+  padding: 14px;
+  background: rgba(13, 19, 17, 0.36);
+  border: 1px solid rgba(255, 250, 242, 0.1);
+  border-radius: 18px;
+}
+
+.destinations-page .morocco-itinerary h4 {
+  margin: 0 0 9px;
+  color: rgba(255, 250, 242, 0.95);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.destinations-page .morocco-itinerary ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.destinations-page .morocco-itinerary li {
+  color: rgba(255, 250, 242, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .destinations-page .morocco-yearround-actions {
