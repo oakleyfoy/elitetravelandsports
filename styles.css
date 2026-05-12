@@ -234,6 +234,98 @@ svg {
   outline-offset: 4px;
 }
 
+@media (max-width: 1120px) {
+  .site-header {
+    top: 10px;
+    width: min(calc(100% - 20px), var(--max-width));
+    min-height: 98px;
+    padding: 14px 14px;
+    border-radius: 22px;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 14px;
+  }
+
+  .brand-logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .brand strong {
+    max-width: 190px;
+    font-size: 1rem;
+  }
+
+  .nav-toggle {
+    position: relative;
+    z-index: 22;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 999px;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .nav-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  .primary-nav {
+    position: fixed;
+    inset: -10px -10px auto -10px;
+    z-index: 21;
+    display: grid;
+    justify-items: center;
+    gap: 24px;
+    padding: 128px 24px 38px;
+    color: var(--white);
+    background: rgba(16, 23, 21, 0.96);
+    border-radius: 0 0 28px 28px;
+    transform: translate3d(0, -115%, 0);
+    transition: transform 380ms var(--ease-nav), box-shadow 260ms var(--ease-luxury);
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0),
+      inset 0 -1px 0 rgba(189, 149, 86, 0.12);
+    will-change: transform;
+  }
+
+  .primary-nav.is-open {
+    transform: translate3d(0, 0, 0);
+    box-shadow:
+      0 32px 80px rgba(0, 0, 0, 0.28),
+      inset 0 -1px 0 rgba(189, 149, 86, 0.16);
+  }
+
+  .primary-nav .header-cta {
+    width: min(100%, 260px);
+  }
+
+  .primary-nav > a:not(.header-cta) {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
 .hero {
   position: relative;
   display: grid;
@@ -2395,6 +2487,98 @@ h3 {
   z-index: 1;
 }
 
+.team-page .interior-hero {
+  background:
+    linear-gradient(105deg, rgba(13, 19, 17, 0.96) 0%, rgba(13, 19, 17, 0.72) 52%, rgba(13, 19, 17, 0.3) 100%),
+    url("assets/team/group.jpg");
+  background-position: 50% 44%;
+  background-size: cover;
+}
+
+.team-page .team-hero-panel {
+  min-height: 320px;
+  background:
+    linear-gradient(180deg, rgba(13, 19, 17, 0.08), rgba(13, 19, 17, 0.7)),
+    url("assets/team/group.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.team-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.58fr) minmax(320px, 0.42fr);
+  gap: clamp(28px, 5vw, 70px);
+  align-items: center;
+}
+
+.team-group-photo {
+  overflow: hidden;
+  border: 1px solid rgba(255, 250, 242, 0.14);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 28px 88px rgba(0, 0, 0, 0.28);
+}
+
+.team-group-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 22px);
+}
+
+.team-card {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(201, 161, 91, 0.1), transparent 40%),
+    rgba(255, 250, 242, 0.045);
+  border: 1px solid rgba(255, 250, 242, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 58px rgba(0, 0, 0, 0.2);
+}
+
+.team-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: rgba(255, 250, 242, 0.06);
+}
+
+.team-card div {
+  padding: clamp(18px, 2.4vw, 24px);
+}
+
+.team-card span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.team-card h3 {
+  margin: 0 0 12px;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.55rem, 2.35vw, 2.1rem);
+  font-weight: 600;
+  line-height: 0.98;
+}
+
+.team-card p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.72);
+  font-size: 0.92rem;
+  line-height: 1.66;
+}
+
 /* Interior hero side panels: photographic layers need explicit cover (base .interior-hero-panel uses gradients only). */
 .interior-hero-panel.visual-tennis,
 .interior-hero-panel.visual-destination,
@@ -4164,12 +4348,12 @@ h3 {
   background: rgba(255, 250, 242, 0.04);
 }
 
-/* Plan inquiry — Formspree feedback + honeypot (states only). */
-.plan-page form.inquiry-form {
+/* Inquiry forms — Formspree feedback + honeypot (states only). */
+form.inquiry-form {
   position: relative;
 }
 
-.plan-page .inquiry-honeypot {
+form.inquiry-form .inquiry-honeypot {
   position: absolute;
   overflow: hidden;
   clip-path: inset(50%);
@@ -4288,6 +4472,7 @@ h3 {
   .experience-rhythm-inner,
   .inclusions-composition,
   .shaped-trip-panel,
+  .team-intro,
   .destinations-page .section-heading,
   .destination-depth-strip,
   .destinations-page .morocco-yearround-heading,
@@ -4306,6 +4491,10 @@ h3 {
     grid-template-columns: 1fr;
     gap: clamp(26px, 5vw, 36px);
     margin-top: clamp(38px, 6vw, 56px);
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .experiences-page .format-hosted,
@@ -4691,6 +4880,7 @@ h3 {
   .destinations-page .morocco-yearround-heading,
   .destinations-page .morocco-brochure-grid,
   .destinations-page .morocco-program-inquiry,
+  .team-grid,
   .process-page .section-heading,
   .concierge-page .section-heading,
   .destination-depth-strip,

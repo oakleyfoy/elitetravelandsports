@@ -58,6 +58,7 @@ test.describe("viewport + nav + form QA", () => {
       // ----- Header nav: every link -----
       const navHrefs = [
         "/about/",
+        "/team/",
         "/experiences/",
         "/destinations/",
         "/process/",
@@ -75,7 +76,7 @@ test.describe("viewport + nav + form QA", () => {
 
       // ----- Footer navigation + contact CTA -----
       await page.goto("/about/", { waitUntil: "domcontentloaded" });
-      const footerNavHrefs = ["/about/", "/experiences/", "/destinations/", "/process/", "/concierge/"];
+      const footerNavHrefs = ["/about/", "/team/", "/experiences/", "/destinations/", "/process/", "/concierge/"];
       for (const href of footerNavHrefs) {
         await page.locator(`footer.site-footer nav a[href="${href}"]`).first().click();
         await page.waitForLoadState("domcontentloaded");
