@@ -746,8 +746,9 @@ h3 {
   display: flex;
   min-height: 452px;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: column;
+  gap: 16px;
   padding: clamp(28px, 4vw, 50px);
   background:
     linear-gradient(180deg, rgba(13, 19, 17, 0.08) 0%, rgba(13, 19, 17, 0.42) 45%, rgba(13, 19, 17, 0.9) 100%),
@@ -866,13 +867,14 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  align-self: flex-end;
-  transform: translateY(-10px);
+  align-self: flex-start;
 }
 
-.morocco-destination-capsules div {
+.morocco-destination-capsules a {
+  display: block;
   min-width: 170px;
   padding: 12px 15px;
+  text-decoration: none;
   background:
     radial-gradient(circle at 20% 0%, rgba(189, 149, 86, 0.12), transparent 10rem),
     rgba(16, 23, 21, 0.36);
@@ -880,6 +882,19 @@ h3 {
   border-radius: 999px;
   box-shadow: 0 14px 42px rgba(0, 0, 0, 0.16);
   backdrop-filter: blur(16px) saturate(1.08);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.morocco-destination-capsules a:hover,
+.morocco-destination-capsules a:focus-visible {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(189, 149, 86, 0.18), transparent 10rem),
+    rgba(255, 250, 242, 0.09);
+  border-color: rgba(201, 161, 91, 0.42);
+  transform: translateY(-2px);
 }
 
 .morocco-destination-capsules strong,
@@ -3469,13 +3484,14 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(16px, 2.2vw, 22px);
+  align-items: start;
 }
 
 .destinations-page .morocco-brochure-card {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 100%;
+  align-self: start;
   padding: clamp(22px, 3vw, 28px);
   background:
     radial-gradient(circle at 12% 0%, rgba(201, 161, 91, 0.1), transparent 46%),
@@ -5074,7 +5090,7 @@ h3 {
     align-self: stretch;
   }
 
-  .morocco-destination-capsules div {
+  .morocco-destination-capsules a {
     width: 100%;
   }
 
@@ -5344,7 +5360,7 @@ h3 {
     transform: none;
   }
 
-  .morocco-destination-capsules div {
+  .morocco-destination-capsules a {
     width: 100%;
   }
 

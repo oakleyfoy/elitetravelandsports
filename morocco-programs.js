@@ -7,9 +7,36 @@
   var form = document.querySelector("[data-morocco-program-form]");
   if (!form || !(form instanceof HTMLFormElement)) return;
 
+  var itineraryPanels = document.querySelectorAll(".morocco-program-details");
   var feedback = document.querySelector("[data-morocco-feedback]");
   var submitBtn = form.querySelector('[type="submit"]');
   var submitting = false;
+
+  itineraryPanels.forEach(function (panel) {
+    panel.addEventListener("toggle", function () {
+      if (!panel.open) return;
+
+      itineraryPanels.forEach(function (otherPanel) {
+        if (otherPanel !== panel) otherPanel.open = false;
+      });
+    });
+  });
+
+  function openPanelFromHash() {
+    var id = window.location.hash ? window.location.hash.slice(1) : "";
+    if (!id) return;
+
+    var panel = document.getElementById(id);
+    if (!panel || !panel.classList.contains("morocco-program-details")) return;
+
+    itineraryPanels.forEach(function (otherPanel) {
+      otherPanel.open = otherPanel === panel;
+    });
+    panel.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  openPanelFromHash();
+  window.addEventListener("hashchange", openPanelFromHash);
 
   function hideFeedback() {
     if (!feedback) return;
