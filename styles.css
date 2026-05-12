@@ -3413,6 +3413,183 @@ h3 {
     0 20px 58px rgba(0, 0, 0, 0.42);
 }
 
+/* Morocco year-round brochure programs (Destinations) */
+.destinations-page .morocco-yearround-section {
+  padding-top: clamp(56px, 8vw, 88px);
+  padding-bottom: clamp(64px, 9vw, 96px);
+}
+
+.destinations-page .morocco-yearround-inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(22px, 3.2vw, 34px);
+}
+
+.destinations-page .morocco-yearround-heading {
+  align-items: start;
+}
+
+.destinations-page .morocco-yearround-heading .morocco-yearround-lede p {
+  margin: 0;
+  max-width: 58ch;
+}
+
+.destinations-page .destination-morocco p a {
+  color: rgba(201, 161, 91, 0.98);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.destinations-page .destination-morocco p a:hover {
+  color: rgba(255, 250, 242, 0.95);
+}
+
+.destinations-page .morocco-yearround-notice {
+  margin: 0;
+  padding: clamp(16px, 2.2vw, 22px) clamp(18px, 2.5vw, 24px);
+  max-width: min(900px, 100%);
+  color: rgba(255, 250, 242, 0.88);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(201, 161, 91, 0.12), transparent 42%),
+    rgba(13, 19, 17, 0.42);
+  border: 1px solid rgba(201, 161, 91, 0.28);
+  border-radius: var(--radius-md);
+}
+
+.destinations-page .morocco-yearround-notice strong {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.destinations-page .morocco-brochure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 22px);
+}
+
+.destinations-page .morocco-brochure-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100%;
+  padding: clamp(22px, 3vw, 28px);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201, 161, 91, 0.1), transparent 46%),
+    rgba(255, 250, 242, 0.045);
+  border: 1px solid rgba(255, 250, 242, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.18);
+}
+
+.destinations-page .morocco-brochure-card h3 {
+  margin: 0;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.35rem, 2.1vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.destinations-page .morocco-brochure-card p {
+  flex: 1;
+  margin: 0;
+  color: rgba(255, 250, 242, 0.72);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.destinations-page .morocco-brochure-link {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.destinations-page .morocco-yearround-actions {
+  margin-top: clamp(8px, 1.5vw, 14px);
+}
+
+.destinations-page .morocco-program-inquiry {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(360px, 0.58fr);
+  gap: clamp(22px, 4vw, 48px);
+  align-items: start;
+  padding: clamp(22px, 4vw, 42px);
+  background:
+    radial-gradient(circle at 88% 0%, rgba(201, 161, 91, 0.12), transparent 32%),
+    rgba(13, 19, 17, 0.34);
+  border: 1px solid rgba(255, 250, 242, 0.12);
+  border-radius: var(--radius-lg);
+}
+
+.destinations-page .morocco-program-inquiry-copy h3 {
+  margin: 0 0 14px;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.9rem, 3.1vw, 3rem);
+  font-weight: 600;
+  line-height: 0.98;
+}
+
+.destinations-page .morocco-program-inquiry-copy p:not(.eyebrow) {
+  margin: 0;
+  max-width: 42ch;
+  color: rgba(255, 250, 242, 0.72);
+  line-height: 1.72;
+}
+
+.destinations-page .morocco-program-form {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback {
+  grid-column: 1 / -1;
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback[hidden] {
+  display: none;
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback--success,
+.destinations-page .morocco-program-form .inquiry-form-feedback--error {
+  padding: 16px 18px;
+  border-radius: 18px;
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback--success {
+  color: rgba(255, 250, 242, 0.92);
+  background: rgba(67, 84, 71, 0.46);
+  border: 1px solid rgba(201, 161, 91, 0.28);
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback--error {
+  color: rgba(255, 250, 242, 0.92);
+  background: rgba(120, 50, 38, 0.46);
+  border: 1px solid rgba(255, 167, 139, 0.3);
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+
+.destinations-page .morocco-program-form .inquiry-form-feedback p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.destinations-page .morocco-program-form .form-field.is-invalid input,
+.destinations-page .morocco-program-form .form-field.is-invalid select,
+.destinations-page .morocco-program-form .form-field.is-invalid textarea {
+  border-color: rgba(255, 167, 139, 0.72);
+  box-shadow: 0 0 0 4px rgba(255, 167, 139, 0.12);
+}
+
 .destination-depth-strip {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -4032,6 +4209,9 @@ h3 {
   .shaped-trip-panel,
   .destinations-page .section-heading,
   .destination-depth-strip,
+  .destinations-page .morocco-yearround-heading,
+  .destinations-page .morocco-brochure-grid,
+  .destinations-page .morocco-program-inquiry,
   .process-page .interior-hero-inner,
   .process-page .section-heading,
   .process-support-grid,
@@ -4427,6 +4607,9 @@ h3 {
 
   .experiences-page .experience-collection-section .section-heading,
   .destinations-page .section-heading,
+  .destinations-page .morocco-yearround-heading,
+  .destinations-page .morocco-brochure-grid,
+  .destinations-page .morocco-program-inquiry,
   .process-page .section-heading,
   .concierge-page .section-heading,
   .destination-depth-strip,

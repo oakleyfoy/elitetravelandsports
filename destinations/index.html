@@ -110,6 +110,8 @@
                 <p>
                   Year-round tennis with coordinated clubs, bilingual arrivals, transfer oversight, and off-court windows
                   for architecture, souks, coastlines, or privately arranged cultural insight.
+                  <a href="#morocco-year-round-programs">Three brochure-led itineraries with published pricing are listed
+                    below</a>—choose your dates and we follow up with availability and details.
                 </p>
               </article>
               <article class="premium-card image-card destination-tile destination-spain destination-span-tall-stack">
@@ -148,6 +150,144 @@
                   same operational discipline and cultural framing.</p>
               </article>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="interior-section alt morocco-yearround-section"
+        id="morocco-year-round-programs"
+        aria-labelledby="morocco-yearround-heading"
+      >
+        <div class="interior-section-inner morocco-yearround-inner">
+          <div class="section-heading morocco-yearround-heading">
+            <div>
+              <p class="eyebrow">Morocco</p>
+              <h2 id="morocco-yearround-heading">Morocco – Year-Round Programs</h2>
+            </div>
+            <div class="morocco-yearround-lede">
+              <p>
+                These three programs are available on the dates you select. Pricing, inclusions, and terms appear exactly as
+                published in each brochure PDF. Choose a program, send your preferred dates, and the Elite planning desk
+                will confirm availability and send the appropriate follow-up.
+              </p>
+            </div>
+          </div>
+
+          <p class="morocco-yearround-notice" role="note">
+            <strong>December 21 – January 18:</strong> this window is not offered for standard online requests. Inquiries
+            during those dates are handled privately on a case-by-case basis. Contact us first so we can review your dates
+            directly.
+          </p>
+
+          <div class="morocco-brochure-grid">
+            <article class="morocco-brochure-card">
+              <h3>Individual Marrakech tennis discovery</h3>
+              <p>Marrakech-centered tennis discovery—review the brochure for sessions, pacing, and published rates.</p>
+              <a
+                class="button button-secondary morocco-brochure-link"
+                href="/destinations/Indiv%20Marrakech%20Tennis%20descovery.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                type="application/pdf"
+                >Open program PDF</a>
+            </article>
+            <article class="morocco-brochure-card">
+              <h3>Marrakesh &amp; Taghazout</h3>
+              <p>Coast and city combination—pricing and structure as shown in the program PDF.</p>
+              <a
+                class="button button-secondary morocco-brochure-link"
+                href="/destinations/Marrakesh%20Taghazout%20Program.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                type="application/pdf"
+                >Open program PDF</a>
+            </article>
+            <article class="morocco-brochure-card">
+              <h3>The imperial cities of Morocco</h3>
+              <p>Cultural routing across Morocco’s imperial cities—refer to the brochure for the full tariff and itinerary.</p>
+              <a
+                class="button button-secondary morocco-brochure-link"
+                href="/destinations/The%20Imperial%20Cities%20Of%20Morocoo.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                type="application/pdf"
+                >Open program PDF</a>
+            </article>
+          </div>
+
+          <div class="morocco-program-inquiry">
+            <div class="morocco-program-inquiry-copy">
+              <p class="eyebrow">Request Dates</p>
+              <h3>Tell us which Morocco program and dates you prefer.</h3>
+              <p>
+                Standard requests can be submitted here for dates outside December 21 through January 18. If your desired
+                stay touches that blocked window, email us directly for private review.
+              </p>
+            </div>
+
+            <form
+              class="inquiry-form morocco-program-form"
+              action="https://formspree.io/f/xqenqerv"
+              method="POST"
+              data-morocco-program-form
+              novalidate
+            >
+              <input
+                type="text"
+                class="inquiry-honeypot"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <input type="hidden" name="_replyto" value="" />
+              <input type="hidden" name="_subject" value="New Morocco Year-Round Program Inquiry" />
+              <input type="hidden" name="inquiry_source" value="Morocco Year-Round Programs" />
+
+              <label class="form-field">
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="form-field">
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" />
+              </label>
+              <label class="form-field">
+                <span>Program</span>
+                <select name="morocco_program" required>
+                  <option value="">Select a program</option>
+                  <option value="Individual Marrakech Tennis Discovery">Individual Marrakech tennis discovery</option>
+                  <option value="Marrakesh & Taghazout">Marrakesh &amp; Taghazout</option>
+                  <option value="The Imperial Cities of Morocco">The imperial cities of Morocco</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Arrival Date</span>
+                <input type="date" name="arrival_date" required />
+              </label>
+              <label class="form-field">
+                <span>Departure Date</span>
+                <input type="date" name="departure_date" required />
+              </label>
+              <label class="form-field">
+                <span>Estimated Group Size</span>
+                <input type="text" name="estimated_group_size" placeholder="2, 6, 12..." />
+              </label>
+              <label class="form-field full">
+                <span>Notes</span>
+                <textarea
+                  name="notes"
+                  placeholder="Tell us about pace, hotel preference, tennis level, or any private handling needed."
+                ></textarea>
+              </label>
+              <button class="button button-primary" type="submit">Submit Morocco Inquiry</button>
+              <div class="inquiry-form-feedback" data-morocco-feedback hidden tabindex="-1"></div>
+            </form>
           </div>
         </div>
       </section>
@@ -211,6 +351,7 @@
         <span>&copy; <span data-year></span> Elite Travel and Sports Tours USA</span>
       </div>
     </footer>
-    <script src="../script.js"></script>
+    <script src="../morocco-programs.js" defer></script>
+    <script src="../script.js" defer></script>
   </body>
 </html>
