@@ -207,7 +207,7 @@
     try {
       var formData = new FormData(form);
       formData.append("blackout_window_checked", "Yes - submitted dates are outside December 21 to January 18.");
-      formData.append("pricing_note", "Pricing remains exactly as indicated in the selected brochure.");
+      formData.append("pricing_note", "Website prices are shown in USD, converted from original brochure rates and rounded to the nearest $50.");
 
       var response = await fetch(endpoint, {
         method: "POST",
