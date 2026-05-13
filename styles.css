@@ -2490,7 +2490,7 @@ h3 {
 .team-page .interior-hero {
   background:
     linear-gradient(105deg, rgba(13, 19, 17, 0.96) 0%, rgba(13, 19, 17, 0.72) 52%, rgba(13, 19, 17, 0.3) 100%),
-    url("assets/team/team-banner.png");
+    url("assets/team/team-banner.jpg");
   background-position: 50% 44%;
   background-size: cover;
 }
