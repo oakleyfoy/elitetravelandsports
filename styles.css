@@ -4926,6 +4926,16 @@ form.inquiry-form .inquiry-honeypot {
     grid-template-columns: 1fr;
   }
 
+  .team-card img {
+    height: clamp(360px, 112vw, 520px);
+    aspect-ratio: 4 / 5;
+    object-position: center 28%;
+  }
+
+  .team-card:first-child img {
+    object-position: center 24%;
+  }
+
   .concierge-reassurance-band {
     min-height: clamp(296px, 56vmin, 540px);
   }
