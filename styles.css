@@ -1068,8 +1068,11 @@ h3 {
 .departure-item,
 .departure-seasonal {
   position: relative;
+  display: block;
   min-height: 122px;
   padding: 18px;
+  color: inherit;
+  text-decoration: none;
   background-position: center;
   background-size: cover;
   border: 1px solid rgba(255, 250, 242, 0.14);
@@ -1128,6 +1131,10 @@ h3 {
     linear-gradient(135deg, rgba(189, 149, 86, 0.16), transparent);
 }
 
+.departure-croatia {
+  background-image: url("assets/destinations/portfolio-uk.jpg");
+}
+
 .departure-crete {
   background-image: url("assets/editorial/departure-crete.jpg");
 }
@@ -1138,6 +1145,12 @@ h3 {
 
 .departure-spain {
   background-image: url("https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=900&q=84");
+}
+
+.departure-tokyo {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(189, 149, 86, 0.16), transparent 15rem),
+    linear-gradient(135deg, rgba(255, 250, 242, 0.08), rgba(255, 250, 242, 0.035));
 }
 
 .elite-process {
@@ -3396,8 +3409,8 @@ h3 {
     linear-gradient(180deg, rgba(13, 19, 17, 0.04) 0%, rgba(13, 19, 17, 0.32) 52%, rgba(13, 19, 17, 0.72) 100%),
     radial-gradient(circle at 78% 16%, rgba(255, 250, 242, 0.14), transparent 46%),
     radial-gradient(ellipse 120% 80% at 50% 100%, transparent 25%, rgba(13, 19, 17, 0.38) 100%),
-    url("assets/destinations/destinations-hero-inset.jpg");
-  background-position: 46% 44%;
+    url("assets/destinations/portfolio-france.jpg");
+  background-position: 50% 46%;
   background-size: cover;
   background-repeat: no-repeat;
   border-color: rgba(255, 250, 242, 0.16);
@@ -3616,6 +3629,95 @@ h3 {
   text-shadow:
     0 1px 2px rgba(5, 8, 7, 0.45),
     0 20px 58px rgba(0, 0, 0, 0.42);
+}
+
+/* Fixed-date tennis trips (Destinations) */
+.destinations-page .fixed-date-trips-section {
+  padding-top: clamp(60px, 8vw, 92px);
+  padding-bottom: clamp(62px, 8vw, 90px);
+}
+
+.destinations-page .fixed-date-trips-inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(22px, 3vw, 34px);
+}
+
+.destinations-page .fixed-date-trips-heading {
+  align-items: start;
+}
+
+.destinations-page .fixed-date-trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(16px, 2.2vw, 22px);
+  align-items: stretch;
+}
+
+.destinations-page .fixed-date-trip-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(22px, 3vw, 28px);
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(201, 161, 91, 0.12), transparent 46%),
+    rgba(255, 250, 242, 0.045);
+  border: 1px solid rgba(255, 250, 242, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.18);
+}
+
+.destinations-page .fixed-date-trip-kicker {
+  color: var(--gold);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.destinations-page .fixed-date-trip-card h3 {
+  margin: 0;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.destinations-page .fixed-date-trip-card p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.72);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.destinations-page .fixed-date-trip-date,
+.destinations-page .fixed-date-trip-price,
+.destinations-page .fixed-date-trip-status {
+  align-self: flex-start;
+  padding: 7px 11px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(201, 161, 91, 0.1);
+  border: 1px solid rgba(201, 161, 91, 0.26);
+  border-radius: 999px;
+}
+
+.destinations-page .fixed-date-trip-price {
+  color: rgba(255, 250, 242, 0.94);
+}
+
+.destinations-page .fixed-date-trip-card .fixed-date-trip-link,
+.destinations-page .fixed-date-trip-status {
+  margin-top: auto;
+}
+
+.destinations-page .fixed-date-trip-card--soon {
+  border-color: rgba(201, 161, 91, 0.26);
 }
 
 /* Morocco year-round brochure programs (Destinations) */
