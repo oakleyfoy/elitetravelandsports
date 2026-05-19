@@ -5,12 +5,7 @@
   "use strict";
 
   var form = document.querySelector("[data-morocco-program-form]");
-  if (!form || !(form instanceof HTMLFormElement)) return;
-
   var itineraryPanels = document.querySelectorAll(".morocco-program-details");
-  var feedback = document.querySelector("[data-morocco-feedback]");
-  var submitBtn = form.querySelector('[type="submit"]');
-  var submitting = false;
 
   itineraryPanels.forEach(function (panel) {
     panel.addEventListener("toggle", function () {
@@ -37,6 +32,12 @@
 
   openPanelFromHash();
   window.addEventListener("hashchange", openPanelFromHash);
+
+  if (!form || !(form instanceof HTMLFormElement)) return;
+
+  var feedback = document.querySelector("[data-morocco-feedback]");
+  var submitBtn = form.querySelector('[type="submit"]');
+  var submitting = false;
 
   function hideFeedback() {
     if (!feedback) return;
