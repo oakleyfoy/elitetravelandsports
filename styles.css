@@ -65,7 +65,7 @@ svg {
   left: 50%;
   z-index: 20;
   display: flex;
-  width: min(calc(100% - 36px), 1260px);
+  width: min(calc(100% - 36px), 1400px);
   min-height: 72px;
   align-items: center;
   justify-content: space-between;
@@ -323,6 +323,39 @@ svg {
 .nav-toggle:focus-visible {
   outline: 2px solid rgba(189, 149, 86, 0.55);
   outline-offset: 4px;
+}
+
+@media (min-width: 1121px) and (max-width: 1320px) {
+  .site-header {
+    width: min(calc(100% - 12px), 1280px);
+    gap: 14px;
+    padding-inline: 18px;
+  }
+
+  .brand {
+    min-width: 286px;
+    gap: 12px;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .brand strong {
+    max-width: 218px;
+    font-size: 15px;
+  }
+
+  .primary-nav {
+    gap: 14px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+  }
+
+  .primary-nav .header-cta {
+    padding-inline: 22px;
+  }
 }
 
 @media (max-width: 1120px) {
