@@ -3711,8 +3711,12 @@ h3 {
   color: rgba(255, 250, 242, 0.94);
 }
 
-.destinations-page .fixed-date-trip-card .fixed-date-trip-link,
+.destinations-page .fixed-date-trip-card > .fixed-date-trip-link,
 .destinations-page .fixed-date-trip-status {
+  margin-top: auto;
+}
+
+.destinations-page .fixed-date-trip-details {
   margin-top: auto;
 }
 
