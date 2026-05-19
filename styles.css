@@ -3530,8 +3530,8 @@ h3 {
 .destinations-page .interior-hero {
   background:
     linear-gradient(105deg, rgba(13, 19, 17, 0.94) 0%, rgba(13, 19, 17, 0.64) 48%, rgba(13, 19, 17, 0.22) 100%),
-    url("assets/destinations/destinations-hero-primary.jpg");
-  background-position: 38% 55%;
+    url("assets/destinations/chez-ali-hero-banner.png");
+  background-position: 50% 50%;
   background-size: cover;
 }
 
@@ -4066,6 +4066,46 @@ h3 {
 
 .destinations-page .morocco-program-details[open] summary {
   margin-bottom: 14px;
+}
+
+.destinations-page .morocco-extensions {
+  display: grid;
+  gap: clamp(18px, 2.8vw, 28px);
+}
+
+.destinations-page .morocco-extensions-heading {
+  align-items: start;
+  margin-bottom: 0;
+}
+
+.destinations-page .morocco-extensions-heading h3 {
+  margin: 0;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2rem, 3.7vw, 3.35rem);
+  font-weight: 600;
+  line-height: 0.98;
+}
+
+.destinations-page .morocco-extension-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 22px);
+  align-items: start;
+}
+
+.destinations-page .morocco-extension-card {
+  border-color: rgba(201, 161, 91, 0.2);
+}
+
+.destinations-page .morocco-extension-kicker {
+  display: block;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .destinations-page .morocco-itinerary {
@@ -5241,6 +5281,7 @@ form.inquiry-form .inquiry-honeypot {
   .destinations-page .section-heading,
   .destinations-page .morocco-yearround-heading,
   .destinations-page .morocco-brochure-grid,
+  .destinations-page .morocco-extension-grid,
   .destinations-page .morocco-program-inquiry,
   .team-grid,
   .process-page .section-heading,
