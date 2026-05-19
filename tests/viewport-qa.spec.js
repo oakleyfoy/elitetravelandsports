@@ -36,6 +36,14 @@ async function closeMobileNavIfNeeded(page) {
   }
 }
 
+async function openDestinationsMenu(page) {
+  await openMobileNavIfNeeded(page);
+  const mobileToggle = page.locator("[data-nav-toggle]");
+  if (!(await mobileToggle.isVisible())) {
+    await page.locator("header .primary-nav .nav-dropdown-toggle").hover();
+  }
+}
+
 test.describe("viewport + nav + form QA", () => {
   for (const vp of viewports) {
     test(`no console errors — ${vp.name} (${vp.width}px)`, async ({ page }) => {
@@ -60,7 +68,6 @@ test.describe("viewport + nav + form QA", () => {
         "/about/",
         "/team/",
         "/experiences/",
-        "/destinations/",
         "/process/",
         "/concierge/",
         "/plan-a-journey/",
@@ -74,9 +81,26 @@ test.describe("viewport + nav + form QA", () => {
         await closeMobileNavIfNeeded(page);
       }
 
+      const destinationNavHrefs = ["/destinations/morocco/", "/destinations/international/"];
+      for (const href of destinationNavHrefs) {
+        await openDestinationsMenu(page);
+        await page.locator(`header .primary-nav .nav-dropdown-menu a[href="${href}"]`).click();
+        await page.waitForLoadState("domcontentloaded");
+        await expect(page).toHaveURL(new RegExp(`${href.replace(/\//g, "\\/")}\\/?$`));
+        await closeMobileNavIfNeeded(page);
+      }
+
       // ----- Footer navigation + contact CTA -----
       await page.goto("/about/", { waitUntil: "domcontentloaded" });
-      const footerNavHrefs = ["/about/", "/team/", "/experiences/", "/destinations/", "/process/", "/concierge/"];
+      const footerNavHrefs = [
+        "/about/",
+        "/team/",
+        "/experiences/",
+        "/destinations/morocco/",
+        "/destinations/international/",
+        "/process/",
+        "/concierge/",
+      ];
       for (const href of footerNavHrefs) {
         await page.locator(`footer.site-footer nav a[href="${href}"]`).first().click();
         await page.waitForLoadState("domcontentloaded");

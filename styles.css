@@ -200,11 +200,17 @@ svg {
 }
 
 .primary-nav .nav-dropdown-toggle {
+  padding: 0 0 5px;
   color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   text-decoration: none;
+  background: transparent;
   opacity: 0.78;
-  padding-bottom: 5px;
+  border: 0;
   border-bottom: 2px solid transparent;
+  cursor: default;
   transition:
     border-color var(--dur-fast) var(--ease-luxury),
     color var(--dur-fast) var(--ease-luxury),
