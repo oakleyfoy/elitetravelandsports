@@ -22,7 +22,12 @@
     if (!id) return;
 
     var panel = document.getElementById(id);
-    if (!panel || !panel.classList.contains("morocco-program-details")) return;
+    if (!panel) return;
+
+    if (!panel.classList.contains("morocco-program-details")) {
+      panel.scrollIntoView({ block: "start", behavior: "smooth" });
+      return;
+    }
 
     itineraryPanels.forEach(function (otherPanel) {
       otherPanel.open = otherPanel === panel;
