@@ -2636,8 +2636,8 @@ h3 {
 .team-page .interior-hero {
   background:
     linear-gradient(105deg, rgba(13, 19, 17, 0.96) 0%, rgba(13, 19, 17, 0.72) 52%, rgba(13, 19, 17, 0.3) 100%),
-    url("assets/team/team-hero-background.png");
-  background-position: 50% 44%;
+    url("assets/destinations/chez-ali-hero-banner.png");
+  background-position: 50% 50%;
   background-size: cover;
 }
 
@@ -3530,8 +3530,8 @@ h3 {
 .destinations-page .interior-hero {
   background:
     linear-gradient(105deg, rgba(13, 19, 17, 0.94) 0%, rgba(13, 19, 17, 0.64) 48%, rgba(13, 19, 17, 0.22) 100%),
-    url("assets/destinations/chez-ali-hero-banner.png");
-  background-position: 50% 50%;
+    url("assets/destinations/destinations-hero-primary.jpg");
+  background-position: 38% 55%;
   background-size: cover;
 }
 
