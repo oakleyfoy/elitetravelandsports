@@ -116,6 +116,38 @@ function buildEmailHtml(payload) {
     </div>`;
 }
 
+function buildAutoResponseHtml(payload) {
+  const name = cleanValue(payload.name);
+  const firstName = name ? name.split(/\s+/)[0] : "there";
+  const diagnostics = getSubmissionDiagnostics(payload);
+  const programLine = diagnostics.program
+    ? `<p><strong>Experience noted:</strong> ${escapeHtml(diagnostics.program)}</p>`
+    : "";
+  const sourceLine = diagnostics.page
+    ? `<p><strong>Inquiry type:</strong> ${escapeHtml(diagnostics.page)}</p>`
+    : "";
+
+  return `
+    <div style="font-family:Arial,sans-serif;color:#1f2933;line-height:1.6;max-width:680px;">
+      <h2 style="margin:0 0 16px;">We received your Elite Travel & Sports inquiry</h2>
+      <p>Hi ${escapeHtml(firstName)},</p>
+      <p>
+        Thank you for reaching out to Elite Travel & Sports. Your inquiry has been received, and our planning team
+        will review your details personally before replying with the most relevant next steps.
+      </p>
+      ${sourceLine}
+      ${programLine}
+      <p>
+        If you need to add anything in the meantime, you can reply directly to this email or reach us at
+        info@elitetravelsportsusa.com.
+      </p>
+      <p style="margin-top:24px;">
+        Warmly,<br />
+        Elite Travel & Sports
+      </p>
+    </div>`;
+}
+
 function getSubmissionDiagnostics(payload) {
   return {
     name: cleanValue(payload.name),
@@ -197,7 +229,7 @@ async function getMicrosoftAccessToken(config) {
   return tokenData.access_token;
 }
 
-async function sendMicrosoftEmail({ config, subject, replyToEmail, replyToName, html }) {
+async function sendMicrosoftEmail({ config, toEmail, subject, replyToEmail, replyToName, html }) {
   const accessToken = await getMicrosoftAccessToken(config);
   const graphResponse = await fetch(
     `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(config.from)}/sendMail`,
@@ -217,7 +249,7 @@ async function sendMicrosoftEmail({ config, subject, replyToEmail, replyToName, 
           toRecipients: [
             {
               emailAddress: {
-                address: config.to,
+                address: toEmail || config.to,
               },
             },
           ],
@@ -392,11 +424,29 @@ async function handleInquiry(req, res) {
   try {
     await sendMicrosoftEmail({
       config: microsoftConfig,
+      toEmail: microsoftConfig.to,
       subject: cleanValue(payload._subject) || "New Elite Travel & Sports Inquiry",
       replyToEmail: email,
       replyToName: name,
       html: buildEmailHtml(payload),
     });
+
+    try {
+      await sendMicrosoftEmail({
+        config: microsoftConfig,
+        toEmail: email,
+        subject: "We received your Elite Travel & Sports inquiry",
+        replyToEmail: microsoftConfig.to,
+        replyToName: "Elite Travel & Sports",
+        html: buildAutoResponseHtml(payload),
+      });
+    } catch (error) {
+      console.error("submit-inquiry auto-response failed");
+      console.error(error && error.message);
+      console.error(error && (error.status || error.statusCode));
+      console.error(error && error.response && error.response.data);
+      console.error(getSafeErrorDetails(error));
+    }
 
     return sendJson(res, 200, { ok: true });
   } catch (error) {
