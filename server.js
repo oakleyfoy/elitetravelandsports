@@ -99,6 +99,38 @@ function buildEmailHtml(payload) {
     </div>`;
 }
 
+function getSubmissionDiagnostics(payload) {
+  return {
+    name: cleanValue(payload.name),
+    email: cleanValue(payload.email),
+    page: cleanValue(payload.inquiry_source),
+    program:
+      cleanValue(payload.morocco_program) ||
+      cleanValue(payload.worldwide_experience) ||
+      cleanValue(payload.destination_interest),
+  };
+}
+
+function getSafeErrorDetails(error) {
+  if (!error || typeof error !== "object") {
+    return error;
+  }
+
+  return {
+    name: error.name,
+    message: error.message,
+    status: error.status,
+    statusCode: error.statusCode,
+    response: error.response
+      ? {
+          status: error.response.status,
+          data: error.response.data,
+        }
+      : undefined,
+    stack: error.stack,
+  };
+}
+
 function getMicrosoftConfig() {
   const tenantId = process.env.MICROSOFT_TENANT_ID;
   const clientId = process.env.MICROSOFT_CLIENT_ID;
@@ -131,7 +163,13 @@ async function getMicrosoftAccessToken(config) {
   );
 
   if (!tokenResponse.ok) {
-    throw new Error("Microsoft token request failed.");
+    const error = new Error("Microsoft token request failed.");
+    error.status = tokenResponse.status;
+    error.response = {
+      status: tokenResponse.status,
+      data: await tokenResponse.text(),
+    };
+    throw error;
   }
 
   const tokenData = await tokenResponse.json();
@@ -181,7 +219,13 @@ async function sendMicrosoftEmail({ config, subject, replyToEmail, replyToName, 
   );
 
   if (!graphResponse.ok) {
-    throw new Error("Microsoft Graph sendMail failed.");
+    const error = new Error("Microsoft Graph sendMail failed.");
+    error.status = graphResponse.status;
+    error.response = {
+      status: graphResponse.status,
+      data: await graphResponse.text(),
+    };
+    throw error;
   }
 }
 
@@ -236,6 +280,15 @@ async function handleInquiry(req, res) {
   }
 
   const microsoftConfig = getMicrosoftConfig();
+  console.log("submit-inquiry received", getSubmissionDiagnostics(payload));
+  console.log("submit-inquiry mail config", {
+    MAIL_FROM_EMAIL: process.env.MAIL_FROM_EMAIL || DEFAULT_FROM_EMAIL,
+    INQUIRY_TO_EMAIL: process.env.INQUIRY_TO_EMAIL || DEFAULT_TO_EMAIL,
+    hasMicrosoftTenantId: Boolean(process.env.MICROSOFT_TENANT_ID),
+    hasMicrosoftClientId: Boolean(process.env.MICROSOFT_CLIENT_ID),
+    hasMicrosoftClientSecret: Boolean(process.env.MICROSOFT_CLIENT_SECRET),
+  });
+
   if (!microsoftConfig) {
     return sendJson(res, 500, { error: "Email service is not configured." });
   }
@@ -250,8 +303,14 @@ async function handleInquiry(req, res) {
     });
 
     return sendJson(res, 200, { ok: true });
-  } catch {
-    return sendJson(res, 502, {
+  } catch (error) {
+    console.error("submit-inquiry email send failed");
+    console.error(error && error.message);
+    console.error(error && (error.status || error.statusCode));
+    console.error(error && error.response && error.response.data);
+    console.error(getSafeErrorDetails(error));
+
+    return sendJson(res, 500, {
       error: "The email service is temporarily unavailable. Please email info@elitetravelsportsusa.com directly.",
     });
   }
