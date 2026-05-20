@@ -219,7 +219,7 @@
     hideFeedback();
 
     var endpoint = (form.getAttribute("action") || "").trim();
-    if (!/^https:\/\/formspree\.io\//i.test(endpoint)) {
+    if (!endpoint) {
       showFeedback(
         "error",
         "This form cannot be sent right now.",
@@ -239,13 +239,17 @@
 
     try {
       var formData = new FormData(form);
-      formData.append("blackout_window_checked", "Yes - submitted dates are outside December 21 to January 18.");
-      formData.append("pricing_note", "Website prices are shown in USD per person, converted from original brochure rates, rounded to the nearest $50, plus an additional $1,000 USD per person.");
+      var payload = Object.fromEntries(formData.entries());
+      payload.blackout_window_checked = "Yes - submitted dates are outside December 21 to January 18.";
+      payload.pricing_note = "Website prices are shown in USD per person, converted from original brochure rates, rounded to the nearest $50, plus an additional $1,000 USD per person.";
 
       var response = await fetch(endpoint, {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        body: JSON.stringify(payload),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       });
 
       var data = null;

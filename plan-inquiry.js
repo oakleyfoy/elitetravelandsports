@@ -1,5 +1,5 @@
 /**
- * Plan a Journey — Formspree submission (endpoint is public; configure in dashboard for info@ inbox).
+ * Plan a Journey — custom inquiry submission.
  */
 (function () {
   "use strict";
@@ -113,7 +113,7 @@
     hideFeedback();
 
     var endpoint = (form.getAttribute("action") || "").trim();
-    if (!/^https:\/\/formspree\.io\//i.test(endpoint)) {
+    if (!endpoint) {
       showFeedback(
         "error",
         "This form cannot be sent right now.",
@@ -132,11 +132,15 @@
     setBusy(true);
 
     try {
-      var fd = new FormData(form);
+      var formData = new FormData(form);
+      var payload = Object.fromEntries(formData.entries());
       var res = await fetch(endpoint, {
         method: "POST",
-        body: fd,
-        headers: { Accept: "application/json" },
+        body: JSON.stringify(payload),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       });
 
       var data = null;

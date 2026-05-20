@@ -1,7 +1,7 @@
-# Optional blueprint: Render Dashboard → New → Blueprint → point at this repo, or skip and use Static Site wizard.
 services:
   - type: web
-    name: elite-travel-static
-    runtime: static
-    buildCommand: 'exit 0'
-    staticPublishPath: .
+    name: elitetravelandsports
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start

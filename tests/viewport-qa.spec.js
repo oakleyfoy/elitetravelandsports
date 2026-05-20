@@ -109,20 +109,15 @@ test.describe("viewport + nav + form QA", () => {
       await page.locator('footer.site-footer .footer-contact a[href="/plan-a-journey/"]').click();
       await expect(page).toHaveURL(/\/plan-a-journey\/?$/);
 
-      // ----- Plan a Journey: mock Formspree, submit AJAX (no full navigation) -----
+      // ----- Plan a Journey: mock inquiry endpoint, submit AJAX (no full navigation) -----
       await page.goto("/plan-a-journey/", { waitUntil: "domcontentloaded" });
 
-      await page.route("**/formspree.io/**", (route) => {
+      await page.route("**/api/submit-inquiry", (route) => {
         route.fulfill({
           status: 200,
           contentType: "application/json",
           body: JSON.stringify({ ok: true }),
         });
-      });
-
-      await page.evaluate(() => {
-        const f = document.querySelector("[data-plan-inquiry]");
-        if (f) f.setAttribute("action", "https://formspree.io/f/e2emocktest");
       });
 
       await page.locator('.inquiry-form input[name="name"]').fill("QA Test Guest");
