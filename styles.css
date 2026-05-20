@@ -3988,12 +3988,14 @@ h3 {
 }
 
 .destinations-page .morocco-yearround-heading {
-  align-items: start;
+  align-items: center;
 }
 
 .destinations-page .morocco-yearround-heading .morocco-yearround-lede p {
   margin: 0;
-  max-width: 58ch;
+  max-width: 56ch;
+  font-size: clamp(1.05rem, 1.25vw, 1.26rem);
+  line-height: 1.72;
 }
 
 .destinations-page .destination-morocco p a {
