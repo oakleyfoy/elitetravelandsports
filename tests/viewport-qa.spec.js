@@ -112,6 +112,14 @@ test.describe("viewport + nav + form QA", () => {
       // ----- Plan a Journey: mock inquiry endpoint, submit AJAX (no full navigation) -----
       await page.goto("/plan-a-journey/", { waitUntil: "domcontentloaded" });
 
+      await page.route("**/api/public-config", (route) => {
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ recaptchaSiteKey: "", recaptchaAction: "submit_inquiry" }),
+        });
+      });
+
       await page.route("**/api/submit-inquiry", (route) => {
         route.fulfill({
           status: 200,

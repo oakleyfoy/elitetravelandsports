@@ -214,6 +214,63 @@
     submitBtn.setAttribute("aria-busy", busy ? "true" : "false");
   }
 
+  async function getRecaptchaConfig() {
+    if (window.__eliteRecaptchaConfig) return window.__eliteRecaptchaConfig;
+
+    try {
+      var response = await fetch("/api/public-config", {
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) return null;
+      window.__eliteRecaptchaConfig = await response.json();
+      return window.__eliteRecaptchaConfig;
+    } catch {
+      return null;
+    }
+  }
+
+  function loadRecaptcha(siteKey) {
+    if (window.grecaptcha && typeof window.grecaptcha.execute === "function") {
+      return Promise.resolve(window.grecaptcha);
+    }
+
+    if (window.__eliteRecaptchaPromise) return window.__eliteRecaptchaPromise;
+
+    window.__eliteRecaptchaPromise = new Promise(function (resolve, reject) {
+      var script = document.createElement("script");
+      script.src = "https://www.google.com/recaptcha/api.js?render=" + encodeURIComponent(siteKey);
+      script.async = true;
+      script.defer = true;
+      script.onload = function () {
+        if (window.grecaptcha) resolve(window.grecaptcha);
+        else reject(new Error("reCAPTCHA did not load."));
+      };
+      script.onerror = function () {
+        reject(new Error("reCAPTCHA could not be loaded."));
+      };
+      document.head.appendChild(script);
+    });
+
+    return window.__eliteRecaptchaPromise;
+  }
+
+  async function getRecaptchaToken() {
+    var config = await getRecaptchaConfig();
+    if (!config || !config.recaptchaSiteKey) return "";
+
+    var recaptcha = await loadRecaptcha(config.recaptchaSiteKey);
+    return new Promise(function (resolve, reject) {
+      recaptcha.ready(function () {
+        recaptcha
+          .execute(config.recaptchaSiteKey, {
+            action: config.recaptchaAction || "submit_inquiry",
+          })
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  }
+
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
     hideFeedback();
@@ -240,6 +297,7 @@
     try {
       var formData = new FormData(form);
       var payload = Object.fromEntries(formData.entries());
+      payload.recaptcha_token = await getRecaptchaToken();
       payload.blackout_window_checked = "Yes - submitted dates are outside December 21 to January 18.";
       payload.pricing_note = "Website prices are shown in USD per person, converted from original brochure rates, rounded to the nearest $50, plus an additional $1,000 USD per person.";
 

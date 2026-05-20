@@ -8,6 +8,8 @@ const ROOT_DIR = __dirname;
 const DEFAULT_TO_EMAIL = "info@elitetravelsportsusa.com";
 const DEFAULT_FROM_EMAIL = "info@elitetravelsportsusa.com";
 const GRAPH_SCOPE = "https://graph.microsoft.com/.default";
+const RECAPTCHA_ACTION = "submit_inquiry";
+const DEFAULT_RECAPTCHA_MIN_SCORE = 0.5;
 
 const FIELD_LABELS = {
   name: "Name",
@@ -30,7 +32,7 @@ const FIELD_LABELS = {
   pricing_note: "Pricing Note",
 };
 
-const INTERNAL_FIELDS = new Set(["_gotcha", "_replyto", "_subject"]);
+const INTERNAL_FIELDS = new Set(["_gotcha", "_replyto", "_subject", "recaptcha_token"]);
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -53,9 +55,24 @@ function sendJson(res, statusCode, body) {
     "Content-Type": "application/json; charset=utf-8",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   });
   res.end(JSON.stringify(body));
+}
+
+function handlePublicConfig(req, res) {
+  if (req.method === "OPTIONS") {
+    return sendJson(res, 204, {});
+  }
+
+  if (req.method !== "GET") {
+    return sendJson(res, 405, { error: "Method not allowed." });
+  }
+
+  return sendJson(res, 200, {
+    recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY || "",
+    recaptchaAction: RECAPTCHA_ACTION,
+  });
 }
 
 function cleanValue(value) {
@@ -229,6 +246,69 @@ async function sendMicrosoftEmail({ config, subject, replyToEmail, replyToName, 
   }
 }
 
+function getRecaptchaMinScore() {
+  const score = Number(process.env.RECAPTCHA_MIN_SCORE);
+  if (!Number.isFinite(score) || score < 0 || score > 1) {
+    return DEFAULT_RECAPTCHA_MIN_SCORE;
+  }
+  return score;
+}
+
+async function verifyRecaptcha(payload, req) {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const token = cleanValue(payload.recaptcha_token);
+
+  if (!secret) {
+    return {
+      ok: false,
+      error: "Spam protection is not configured.",
+      log: "RECAPTCHA_SECRET_KEY is missing.",
+    };
+  }
+
+  if (!token) {
+    return {
+      ok: false,
+      error: "Spam protection failed. Please refresh the page and try again.",
+      log: "Missing reCAPTCHA token.",
+    };
+  }
+
+  const verifyResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      secret,
+      response: token,
+      remoteip: req.socket && req.socket.remoteAddress ? req.socket.remoteAddress : "",
+    }),
+  });
+
+  const data = await verifyResponse.json();
+  const minScore = getRecaptchaMinScore();
+  const ok =
+    data.success === true &&
+    data.action === RECAPTCHA_ACTION &&
+    typeof data.score === "number" &&
+    data.score >= minScore;
+
+  if (!ok) {
+    return {
+      ok: false,
+      error: "Spam protection failed. Please refresh the page and try again.",
+      log: {
+        success: data.success,
+        action: data.action,
+        score: data.score,
+        minScore,
+        errorCodes: data["error-codes"],
+      },
+    };
+  }
+
+  return { ok: true, log: { action: data.action, score: data.score, minScore } };
+}
+
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -288,6 +368,22 @@ async function handleInquiry(req, res) {
     hasMicrosoftClientId: Boolean(process.env.MICROSOFT_CLIENT_ID),
     hasMicrosoftClientSecret: Boolean(process.env.MICROSOFT_CLIENT_SECRET),
   });
+
+  let recaptchaResult;
+  try {
+    recaptchaResult = await verifyRecaptcha(payload, req);
+  } catch (error) {
+    console.error("submit-inquiry recaptcha verification failed");
+    console.error(getSafeErrorDetails(error));
+    return sendJson(res, 500, {
+      error: "Spam protection could not be verified. Please try again shortly.",
+    });
+  }
+
+  console.log("submit-inquiry recaptcha result", recaptchaResult.log);
+  if (!recaptchaResult.ok) {
+    return sendJson(res, 400, { error: recaptchaResult.error });
+  }
 
   if (!microsoftConfig) {
     return sendJson(res, 500, { error: "Email service is not configured." });
@@ -350,6 +446,11 @@ const server = http.createServer((req, res) => {
 
   if (url.pathname === "/api/submit-inquiry") {
     handleInquiry(req, res);
+    return;
+  }
+
+  if (url.pathname === "/api/public-config") {
+    handlePublicConfig(req, res);
     return;
   }
 
