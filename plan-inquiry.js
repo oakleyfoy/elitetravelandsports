@@ -83,6 +83,13 @@
       markInvalid(emailLabel);
     }
 
+    form.querySelectorAll("[required]").forEach(function (field) {
+      if (!field.value || !field.value.trim()) {
+        ok = false;
+        markInvalid(field.closest(".form-field"));
+      }
+    });
+
     if (!ok) {
       showFeedback(
         "error",

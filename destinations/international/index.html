@@ -513,13 +513,101 @@
         </div>
       </section>
 
+      <section
+        class="interior-section alt worldwide-inquiry-section"
+        id="worldwide-inquiry"
+        aria-labelledby="worldwide-inquiry-heading"
+      >
+        <div class="interior-section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Worldwide Inquiry</p>
+            <h2 id="worldwide-inquiry-heading">Ask about availability for a Worldwide Experience.</h2>
+            <p>
+              Tell us which fixed-date departure you are considering, your group size, and any timing or travel notes.
+              Elite will respond with current availability and next steps.
+            </p>
+          </div>
+
+          <div class="inquiry-layout">
+            <form
+              class="inquiry-form worldwide-inquiry-form"
+              action="https://formspree.io/f/xqenqerv"
+              method="POST"
+              data-plan-inquiry
+              novalidate
+            >
+              <input
+                type="text"
+                class="inquiry-honeypot"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <input type="hidden" name="_replyto" value="" />
+              <input type="hidden" name="_subject" value="New Worldwide Experience Inquiry" />
+              <input type="hidden" name="inquiry_source" value="Worldwide Experiences" />
+
+              <label class="form-field">
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="form-field">
+                <span>Phone</span>
+                <input type="tel" name="phone" autocomplete="tel" />
+              </label>
+              <label class="form-field">
+                <span>Worldwide Experience</span>
+                <select name="worldwide_experience" required>
+                  <option value="">Select a fixed-date trip</option>
+                  <option value="Greece Creta & Tennis Experience">Greece Creta &amp; Tennis Experience</option>
+                  <option value="Marbella Spain & Tennis Experience">Marbella Spain &amp; Tennis Experience</option>
+                  <option value="Tokyo Tennis Experience">Tokyo Tennis Experience</option>
+                  <option value="Algarve Portugal & Tennis Experience">Algarve Portugal &amp; Tennis Experience</option>
+                  <option value="Dubrovnik & Split Croatia & Tennis Experience">Dubrovnik &amp; Split Croatia &amp; Tennis Experience</option>
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Estimated Group Size</span>
+                <input type="text" name="estimated_group_size" placeholder="2, 6, 12..." />
+              </label>
+              <label class="form-field full">
+                <span>Notes</span>
+                <textarea
+                  name="notes"
+                  placeholder="Tell us about players, companions, hotel preferences, or any availability questions."
+                ></textarea>
+              </label>
+              <button class="button button-primary" type="submit">Submit Worldwide Inquiry</button>
+              <div class="inquiry-form-feedback" data-inquiry-feedback hidden tabindex="-1"></div>
+            </form>
+
+            <aside class="form-trust">
+              <strong>Fixed-date departures have limited space.</strong>
+              <p>
+                Use this form when you are asking about one of the listed Worldwide Experiences. The Elite planning desk
+                will confirm availability, fit, and the appropriate next step.
+              </p>
+              <p>
+                For flexible Morocco dates, use the Morocco inquiry form instead so the request routes with the right
+                program context.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
 
       <section class="interior-cta">
         <div class="interior-cta-inner">
           <p class="eyebrow">Fixed-Date Planning</p>
-          <h2>Ask about availability for an International Experience.</h2>
+          <h2>Ask about availability for a Worldwide Experience.</h2>
           <div class="interior-actions">
-            <a class="button button-primary" href="/plan-a-journey/">Plan a Journey</a>
+            <a class="button button-primary" href="#worldwide-inquiry">Plan a Journey</a>
             <a class="button button-secondary" href="/destinations/morocco/">Explore Morocco Experiences</a>
           </div>
         </div>
@@ -547,6 +635,7 @@
       </div>
     </footer>
     <script src="../../morocco-programs.js" defer></script>
+    <script src="../../plan-inquiry.js" defer></script>
     <script src="../../script.js" defer></script>
   </body>
 </html>

@@ -4289,6 +4289,57 @@ h3 {
   box-shadow: 0 0 0 4px rgba(255, 167, 139, 0.12);
 }
 
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback {
+  grid-column: 1 / -1;
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback[hidden] {
+  display: none;
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback--success,
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback--error {
+  padding: 16px 18px;
+  border-radius: 18px;
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback--success {
+  color: rgba(255, 250, 242, 0.92);
+  background: rgba(67, 84, 71, 0.46);
+  border: 1px solid rgba(201, 161, 91, 0.28);
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback--error {
+  color: rgba(255, 250, 242, 0.92);
+  background: rgba(120, 50, 38, 0.46);
+  border: 1px solid rgba(255, 167, 139, 0.3);
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+
+.destinations-page .worldwide-inquiry-form .inquiry-form-feedback p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.destinations-page .worldwide-inquiry-form .form-field.is-invalid input,
+.destinations-page .worldwide-inquiry-form .form-field.is-invalid select,
+.destinations-page .worldwide-inquiry-form .form-field.is-invalid textarea {
+  border-color: rgba(255, 167, 139, 0.72);
+  box-shadow: 0 0 0 4px rgba(255, 167, 139, 0.12);
+}
+
+.destinations-page .worldwide-inquiry-form [type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
 .destination-depth-strip {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
