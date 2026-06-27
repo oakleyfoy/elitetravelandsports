@@ -1,5 +1,5 @@
 /**
- * Morocco year-round programs — dedicated inquiry form with blocked-date validation.
+ * Morocco fixed-date departures — inquiry form.
  */
 (function () {
   "use strict";
@@ -94,46 +94,6 @@
     if (label) label.classList.add("is-invalid");
   }
 
-  function parseDateInput(input) {
-    var value = input ? input.value.trim() : "";
-    var parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-    if (!parts) return null;
-
-    var year = Number(parts[1]);
-    var month = Number(parts[2]) - 1;
-    var day = Number(parts[3]);
-    var date = new Date(year, month, day);
-
-    if (
-      date.getFullYear() !== year ||
-      date.getMonth() !== month ||
-      date.getDate() !== day
-    ) {
-      return null;
-    }
-
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }
-
-  function overlapsBlockedWindow(startDate, endDate) {
-    var startYear = startDate.getFullYear() - 1;
-    var endYear = endDate.getFullYear() + 1;
-
-    for (var year = startYear; year <= endYear; year += 1) {
-      var blockedStart = new Date(year, 11, 21);
-      var blockedEnd = new Date(year + 1, 0, 18);
-      blockedStart.setHours(0, 0, 0, 0);
-      blockedEnd.setHours(0, 0, 0, 0);
-
-      if (startDate <= blockedEnd && endDate >= blockedStart) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   function validate() {
     clearFieldErrors();
 
@@ -141,8 +101,6 @@
       form.querySelector('[name="name"]'),
       form.querySelector('[name="email"]'),
       form.querySelector('[name="morocco_program"]'),
-      form.querySelector('[name="arrival_date"]'),
-      form.querySelector('[name="departure_date"]'),
     ];
     var ok = true;
 
@@ -159,48 +117,11 @@
       markInvalid(emailInput);
     }
 
-    var arrivalInput = form.querySelector('[name="arrival_date"]');
-    var departureInput = form.querySelector('[name="departure_date"]');
-    var arrivalDate = parseDateInput(arrivalInput);
-    var departureDate = parseDateInput(departureInput);
-
-    if (arrivalInput && arrivalInput.value && !arrivalDate) {
-      ok = false;
-      markInvalid(arrivalInput);
-    }
-    if (departureInput && departureInput.value && !departureDate) {
-      ok = false;
-      markInvalid(departureInput);
-    }
-
-    if (arrivalDate && departureDate && departureDate < arrivalDate) {
-      ok = false;
-      markInvalid(arrivalInput);
-      markInvalid(departureInput);
-      showFeedback(
-        "error",
-        "Please check your dates.",
-        "Departure date must be the same as or later than the arrival date.",
-      );
-      return false;
-    }
-
-    if (arrivalDate && departureDate && overlapsBlockedWindow(arrivalDate, departureDate)) {
-      markInvalid(arrivalInput);
-      markInvalid(departureInput);
-      showFeedback(
-        "error",
-        "These dates need private review.",
-        "Morocco year-round program requests from December 21 through January 18 are handled privately. Please email info@elitetravelsportsusa.com so we can review your dates case by case.",
-      );
-      return false;
-    }
-
     if (!ok) {
       showFeedback(
         "error",
         "Please complete the highlighted fields.",
-        "Name, email, program, arrival date, and departure date are required.",
+        "Name, email, and Morocco departure are required.",
       );
     }
 
@@ -298,8 +219,6 @@
       var formData = new FormData(form);
       var payload = Object.fromEntries(formData.entries());
       payload.recaptcha_token = await getRecaptchaToken();
-      payload.blackout_window_checked = "Yes - submitted dates are outside December 21 to January 18.";
-      payload.pricing_note = "Website prices are shown in USD per person, converted from original brochure rates, rounded to the nearest $50, plus an additional $1,000 USD per person.";
 
       var response = await fetch(endpoint, {
         method: "POST",
@@ -321,7 +240,7 @@
         showFeedback(
           "success",
           "Thank you—your Morocco request is received.",
-          "The Elite planning desk will review your selected program and dates, then reply with availability and next steps.",
+          "The Elite planning desk will review your selected departure and reply with availability and next steps.",
         );
         form.reset();
         clearFieldErrors();
