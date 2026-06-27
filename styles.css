@@ -1313,6 +1313,14 @@ h3 {
   background-image: url("https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=900&q=84");
 }
 
+.departure-morocco-dec-2026 {
+  background-image: url("assets/editorial/departure-morocco-dec-2026.jpg");
+}
+
+.departure-morocco-mar-2027 {
+  background-image: url("assets/editorial/departure-morocco-mar-2027.jpg");
+}
+
 .departure-tokyo {
   background:
     radial-gradient(circle at 85% 20%, rgba(189, 149, 86, 0.16), transparent 15rem),
