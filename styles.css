@@ -1318,9 +1318,7 @@ h3 {
 }
 
 .departure-tokyo {
-  background:
-    radial-gradient(circle at 85% 20%, rgba(189, 149, 86, 0.16), transparent 15rem),
-    linear-gradient(135deg, rgba(255, 250, 242, 0.08), rgba(255, 250, 242, 0.035));
+  background-image: url("assets/editorial/departure-tokyo.jpg");
 }
 
 .elite-process {
@@ -6483,6 +6481,7 @@ html.motion-enhanced main > section:nth-of-type(n + 2).motion-reveal-in {
 }
 
 .home-page .morocco-feature {
+  --feature-image: url("assets/destinations/hero-panel.jpg");
   border-color: rgba(255, 250, 242, 0.11);
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.19);
   background:
@@ -6490,7 +6489,7 @@ html.motion-enhanced main > section:nth-of-type(n + 2).motion-reveal-in {
     linear-gradient(180deg, rgba(13, 19, 17, 0.18) 0%, rgba(13, 19, 17, 0.52) 45%, rgba(13, 19, 17, 0.93) 100%),
     linear-gradient(115deg, rgba(13, 19, 17, 0.82) 0%, rgba(13, 19, 17, 0.28) 52%, rgba(13, 19, 17, 0.66) 100%),
     radial-gradient(circle at 18% 18%, rgba(255, 250, 242, 0.12), transparent 24rem),
-    url("assets/destinations/hero-panel.jpg");
+    var(--feature-image);
 }
 
 .home-page .morocco-feature::before {
