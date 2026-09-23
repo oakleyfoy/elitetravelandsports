@@ -41,7 +41,7 @@ const featuredDepartures = [
     href: "/destinations/international/#international-trip-tokyo",
     month: "April 2027",
     dates: "Apr 14–21",
-    image: "/assets/editorial/departure-tokyo.jpg",
+    image: "/assets/editorial/departure-tokyo-shibuya.jpg",
   },
   {
     kicker: "Portugal",
