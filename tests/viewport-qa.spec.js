@@ -36,13 +36,6 @@ async function closeMobileNavIfNeeded(page) {
   }
 }
 
-async function openDestinationsMenu(page) {
-  await openMobileNavIfNeeded(page);
-  const mobileToggle = page.locator("[data-nav-toggle]");
-  if (!(await mobileToggle.isVisible())) {
-    await page.locator("header .primary-nav .nav-dropdown-toggle").hover();
-  }
-}
 
 test.describe("viewport + nav + form QA", () => {
   for (const vp of viewports) {
@@ -59,8 +52,8 @@ test.describe("viewport + nav + form QA", () => {
       await expect(page).toHaveURL(/\/plan-a-journey\/?$/);
       await page.goBack({ waitUntil: "domcontentloaded" });
 
-      await page.locator('.hero-actions .button.button-secondary[href="/destinations/"]').click();
-      await expect(page).toHaveURL(/\/destinations\/?$/);
+      await page.locator('.hero-actions .button.button-secondary[href="/destinations/international/"]').click();
+      await expect(page).toHaveURL(/\/destinations\/international\/?$/);
       await page.goBack({ waitUntil: "domcontentloaded" });
 
       // ----- Header nav: every link -----
@@ -69,7 +62,6 @@ test.describe("viewport + nav + form QA", () => {
         "/team/",
         "/experiences/",
         "/process/",
-        "/concierge/",
         "/plan-a-journey/",
       ];
 
@@ -81,14 +73,11 @@ test.describe("viewport + nav + form QA", () => {
         await closeMobileNavIfNeeded(page);
       }
 
-      const destinationNavHrefs = ["/destinations/morocco/", "/destinations/international/"];
-      for (const href of destinationNavHrefs) {
-        await openDestinationsMenu(page);
-        await page.locator(`header .primary-nav .nav-dropdown-menu a[href="${href}"]`).click();
-        await page.waitForLoadState("domcontentloaded");
-        await expect(page).toHaveURL(new RegExp(`${href.replace(/\//g, "\\/")}\\/?$`));
-        await closeMobileNavIfNeeded(page);
-      }
+      await openMobileNavIfNeeded(page);
+      await page.locator('header .primary-nav a[href="/destinations/international/"]').click();
+      await page.waitForLoadState("domcontentloaded");
+      await expect(page).toHaveURL(/\/destinations\/international\/?$/);
+      await closeMobileNavIfNeeded(page);
 
       // ----- Footer navigation + contact CTA -----
       await page.goto("/about/", { waitUntil: "domcontentloaded" });
@@ -96,10 +85,8 @@ test.describe("viewport + nav + form QA", () => {
         "/about/",
         "/team/",
         "/experiences/",
-        "/destinations/morocco/",
         "/destinations/international/",
         "/process/",
-        "/concierge/",
       ];
       for (const href of footerNavHrefs) {
         await page.locator(`footer.site-footer nav a[href="${href}"]`).first().click();

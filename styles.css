@@ -3826,6 +3826,10 @@ h3 {
 }
 
 /* Destination overview selector */
+.destinations-page .destination-overview-section {
+  padding-top: var(--pad-hero-under-nav);
+}
+
 .destinations-page .destination-overview-inner {
   display: flex;
   flex-direction: column;

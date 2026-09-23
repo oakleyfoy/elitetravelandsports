@@ -1,7 +1,7 @@
 const featuredDepartures = [
   {
     kicker: "Greece",
-    title: "A locked-date Crete departure",
+    title: "A Crete departure",
     name: "Greece Creta & Tennis Experience",
     summary:
       "Crete tennis academy play, Heraklion culture, a boat excursion, padel discovery, and Cretan dining—October 7-14, 2026 at $5,800 USD per person.",
@@ -12,7 +12,7 @@ const featuredDepartures = [
   },
   {
     kicker: "Spain",
-    title: "A locked-date Marbella departure",
+    title: "A Marbella departure",
     name: "Marbella Spain & Tennis Experience",
     summary:
       "Marbella tennis, tapas, Malaga discovery, padel, coastal touring, and a farewell flamenco evening—January 27 – February 3, 2027 at $5,800 USD per person.",
@@ -23,7 +23,7 @@ const featuredDepartures = [
   },
   {
     kicker: "Morocco Experiences",
-    title: "A locked-date Marrakech departure",
+    title: "A Marrakech departure",
     name: "Marrakech Discovery & Tennis Experience",
     summary:
       "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers—on March 6–13, 2027 at $5,800 USD per person.",
@@ -34,7 +34,7 @@ const featuredDepartures = [
   },
   {
     kicker: "Japan",
-    title: "A locked-date Tokyo departure",
+    title: "A Tokyo departure",
     name: "Tokyo Tennis Experience",
     summary:
       "Hotel New Otani Tokyo, morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day—April 14-21, 2027 at $6,800 USD per person.",
@@ -45,7 +45,7 @@ const featuredDepartures = [
   },
   {
     kicker: "Portugal",
-    title: "A locked-date Algarve departure",
+    title: "An Algarve departure",
     name: "Algarve Portugal & Tennis Experience",
     summary:
       "Algarve tennis, Faro Old Town, a catamaran coastline, Benagil Cave, padel, wine tasting, and Albufeira—May 12–19, 2027 at $5,800 USD per person.",
@@ -56,7 +56,7 @@ const featuredDepartures = [
   },
   {
     kicker: "Croatia",
-    title: "A locked-date Adriatic departure",
+    title: "An Adriatic departure",
     name: "Dubrovnik & Split Croatia & Tennis Experience",
     summary:
       "Dubrovnik, Split, tennis sessions, coastal dining, guided old-town discovery, and an island excursion—June 2–9, 2027 at $6,800 USD per person.",
