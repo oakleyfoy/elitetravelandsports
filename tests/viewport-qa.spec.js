@@ -61,7 +61,6 @@ test.describe("viewport + nav + form QA", () => {
         "/about/",
         "/team/",
         "/experiences/",
-        "/process/",
         "/plan-a-journey/",
       ];
 
@@ -82,11 +81,10 @@ test.describe("viewport + nav + form QA", () => {
       // ----- Footer navigation + contact CTA -----
       await page.goto("/about/", { waitUntil: "domcontentloaded" });
       const footerNavHrefs = [
+        "/destinations/international/",
         "/about/",
         "/team/",
         "/experiences/",
-        "/destinations/international/",
-        "/process/",
       ];
       for (const href of footerNavHrefs) {
         await page.locator(`footer.site-footer nav a[href="${href}"]`).first().click();
