@@ -37,7 +37,7 @@ const featuredDepartures = [
     title: "A Tokyo departure",
     name: "Tokyo Tennis Experience",
     summary:
-      "Hotel New Otani Tokyo, morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day—April 14-21, 2027 at $7,800 USD per person.",
+      "Hotel New Otani Tokyo, The Main — the 5-star hotel, not Garden Tower — morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day—April 14-21, 2027 at $7,800 USD per person.",
     href: "/destinations/international/#international-trip-tokyo",
     month: "April 2027",
     dates: "Apr 14–21",
