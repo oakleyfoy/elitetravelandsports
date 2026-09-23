@@ -4,7 +4,7 @@ const featuredDepartures = [
     title: "A Crete departure",
     name: "Greece Creta & Tennis Experience",
     summary:
-      "Crete tennis academy play, Heraklion culture, a boat excursion, padel discovery, and Cretan dining—October 7-14, 2026 at $5,800 USD per person.",
+      "Crete tennis academy play, Heraklion culture, a boat excursion, padel discovery, and Cretan dining—October 7-14, 2026 at $6,800 USD per person.",
     href: "/destinations/international/#international-trip-greece",
     month: "October 2026",
     dates: "Oct 7–14",
@@ -15,7 +15,7 @@ const featuredDepartures = [
     title: "A Marbella departure",
     name: "Marbella Spain & Tennis Experience",
     summary:
-      "Marbella tennis, tapas, Malaga discovery, padel, coastal touring, and a farewell flamenco evening—January 27 – February 3, 2027 at $5,800 USD per person.",
+      "Marbella tennis, tapas, Malaga discovery, padel, coastal touring, and a farewell flamenco evening—January 27 – February 3, 2027 at $6,800 USD per person.",
     href: "/destinations/international/#international-trip-spain",
     month: "January 2027",
     dates: "Jan 27–Feb 3",
@@ -26,7 +26,7 @@ const featuredDepartures = [
     title: "A Marrakech departure",
     name: "Marrakech Discovery & Tennis Experience",
     summary:
-      "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers—on March 6–13, 2027 at $5,800 USD per person.",
+      "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers—on March 6–13, 2027 at $6,800 USD per person.",
     href: "/destinations/international/#international-trip-morocco",
     month: "March 2027",
     dates: "Mar 6–13",
@@ -37,7 +37,7 @@ const featuredDepartures = [
     title: "A Tokyo departure",
     name: "Tokyo Tennis Experience",
     summary:
-      "Hotel New Otani Tokyo, morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day—April 14-21, 2027 at $6,800 USD per person.",
+      "Hotel New Otani Tokyo, morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day—April 14-21, 2027 at $7,800 USD per person.",
     href: "/destinations/international/#international-trip-tokyo",
     month: "April 2027",
     dates: "Apr 14–21",
@@ -48,7 +48,7 @@ const featuredDepartures = [
     title: "An Algarve departure",
     name: "Algarve Portugal & Tennis Experience",
     summary:
-      "Algarve tennis, Faro Old Town, a catamaran coastline, Benagil Cave, padel, wine tasting, and Albufeira—May 12–19, 2027 at $5,800 USD per person.",
+      "Algarve tennis, Faro Old Town, a catamaran coastline, Benagil Cave, padel, wine tasting, and Albufeira—May 12–19, 2027 at $6,800 USD per person.",
     href: "/destinations/international/#international-trip-portugal",
     month: "May 2027",
     dates: "May 12–19",
@@ -59,7 +59,7 @@ const featuredDepartures = [
     title: "An Adriatic departure",
     name: "Dubrovnik & Split Croatia & Tennis Experience",
     summary:
-      "Dubrovnik, Split, tennis sessions, coastal dining, guided old-town discovery, and an island excursion—June 2–9, 2027 at $6,800 USD per person.",
+      "Dubrovnik, Split, tennis sessions, coastal dining, guided old-town discovery, and an island excursion—June 2–9, 2027 at $7,800 USD per person.",
     href: "/destinations/international/#international-trip-croatia",
     month: "June 2027",
     dates: "Jun 2–9",
