@@ -26,10 +26,10 @@ const featuredDepartures = [
     title: "A Marrakech departure",
     name: "Marrakech Discovery & Tennis Experience",
     summary:
-      "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers—on March 6–13, 2027 at $6,800 USD per person.",
+      "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers—on March 13–20, 2027 at $6,800 USD per person.",
     href: "/destinations/international/#international-trip-morocco",
     month: "March 2027",
-    dates: "Mar 6–13",
+    dates: "Mar 13–20",
     image: "/assets/destinations/hero-panel.jpg",
   },
   {
