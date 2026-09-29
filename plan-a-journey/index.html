@@ -185,13 +185,22 @@
                 <span>Notes / What are you hoping to create?</span>
                 <textarea name="notes"></textarea>
               </label>
-              <label class="sms-consent">
-                <input type="checkbox" name="sms_consent" value="Yes" />
-                <span class="sms-consent-copy">
-                  <strong>Text messages</strong>
-                  <span>By checking this box and providing my mobile number, I agree to receive text messages from Elite Travel.</span>
-                </span>
-              </label>
+              <div class="sms-options">
+                <label class="sms-consent">
+                  <input type="checkbox" name="sms_marketing" value="Yes" />
+                  <span class="sms-consent-copy">
+                    <strong>Marketing Messages</strong>
+                    <span>Promotions, departure announcements, and special offers from Elite Travel. Message frequency varies.</span>
+                  </span>
+                </label>
+                <label class="sms-consent">
+                  <input type="checkbox" name="sms_transactional" value="Yes" />
+                  <span class="sms-consent-copy">
+                    <strong>Transactional Messages</strong>
+                    <span>Inquiry replies, availability updates, and trip planning messages from Elite Travel. Frequency depends on your request.</span>
+                  </span>
+                </label>
+              </div>
               <button class="button button-primary" type="submit">Submit Inquiry</button>
               <p class="sms-disclosure">
                 <strong>Message and data rates may apply.</strong> Message frequency varies. Reply <strong>STOP</strong> to opt out. Consent is not a condition of purchase.

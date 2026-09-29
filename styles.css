@@ -3060,8 +3060,13 @@ h3 {
   color-scheme: dark;
 }
 
-.inquiry-form .sms-consent {
+.inquiry-form .sms-options {
   grid-column: 1 / -1;
+  display: grid;
+  gap: 12px;
+}
+
+.inquiry-form .sms-consent {
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr);
   column-gap: 12px;

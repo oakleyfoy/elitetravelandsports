@@ -191,8 +191,9 @@
     try {
       var formData = new FormData(form);
       var payload = Object.fromEntries(formData.entries());
-      var smsConsent = form.querySelector('[name="sms_consent"]');
-      if (smsConsent) payload.sms_consent = smsConsent.checked ? "Yes" : "No";
+      form.querySelectorAll(".sms-consent input[type='checkbox']").forEach(function (box) {
+        payload[box.name] = box.checked ? "Yes" : "No";
+      });
       payload.recaptcha_token = await getRecaptchaToken();
       var res = await fetch(endpoint, {
         method: "POST",
