@@ -250,8 +250,8 @@
                 <input type="email" name="email" autocomplete="email" required />
               </label>
               <label class="form-field">
-                <span>Phone</span>
-                <input type="tel" name="phone" autocomplete="tel" />
+                <span>Mobile Phone Number</span>
+                <input type="tel" name="phone" autocomplete="tel" placeholder="+1 (555) 000-0000" />
               </label>
               <label class="form-field">
                 <span>Morocco Departure</span>
@@ -271,7 +271,17 @@
                   placeholder="Tell us about players, companions, tennis level, or any availability questions."
                 ></textarea>
               </label>
+              <label class="sms-consent">
+                <input type="checkbox" name="sms_consent" value="Yes" />
+                <span class="sms-consent-copy">
+                  <strong>Text messages</strong>
+                  <span>By checking this box and providing my mobile number, I agree to receive text messages from Elite Travel.</span>
+                </span>
+              </label>
               <button class="button button-primary" type="submit">Submit Morocco Inquiry</button>
+              <p class="sms-disclosure">
+                <strong>Message and data rates may apply.</strong> Message frequency varies. Reply <strong>STOP</strong> to opt out. Consent is not a condition of purchase.
+              </p>
               <div class="inquiry-form-feedback" data-morocco-feedback hidden tabindex="-1"></div>
             </form>
           </div>          </div>

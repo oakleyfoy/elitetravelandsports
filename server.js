@@ -15,6 +15,7 @@ const FIELD_LABELS = {
   name: "Name",
   email: "Email",
   phone: "Phone",
+  sms_consent: "SMS Consent",
   inquiry_source: "Inquiry Source",
   morocco_program: "Morocco Program",
   optional_extension: "Optional Extension",
