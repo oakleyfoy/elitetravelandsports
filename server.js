@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
 const { URL } = require("node:url");
+const { handlePastExperiences, handleSitemap } = require("./lib/past-experiences");
 
 const PORT = process.env.PORT || 10000;
 const ROOT_DIR = __dirname;
@@ -51,6 +52,18 @@ const MIME_TYPES = {
   ".webp": "image/webp",
   ".xml": "application/xml; charset=utf-8",
 };
+
+// The site is served from the repository root, so project files beside it must be kept private.
+const PRIVATE_DIRS = new Set(["data", "lib", "mobile-screenshots", "node_modules", "tests"]);
+const PRIVATE_ROOT_FILES = new Set([
+  "master_cleanup_list.md",
+  "package-lock.json",
+  "package.json",
+  "playwright.config.js",
+  "readme.md",
+  "render.yaml",
+  "server.js",
+]);
 
 function sendJson(res, statusCode, body) {
   res.writeHead(statusCode, {
@@ -478,9 +491,16 @@ function resolveStaticPath(pathname) {
   return filePath;
 }
 
+function isPrivatePath(filePath) {
+  const segments = path.relative(ROOT_DIR, filePath).toLowerCase().split(path.sep);
+  if (segments.some((segment) => segment.startsWith("."))) return true;
+  if (PRIVATE_DIRS.has(segments[0])) return true;
+  return segments.length === 1 && PRIVATE_ROOT_FILES.has(segments[0]);
+}
+
 function serveStatic(req, res, pathname) {
   const filePath = resolveStaticPath(pathname);
-  if (!filePath || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+  if (!filePath || isPrivatePath(filePath) || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
     res.end("Not found");
     return;
@@ -503,6 +523,16 @@ const server = http.createServer((req, res) => {
 
   if (url.pathname === "/api/public-config") {
     handlePublicConfig(req, res);
+    return;
+  }
+
+  if (url.pathname === "/past-experiences" || url.pathname.startsWith("/past-experiences/")) {
+    handlePastExperiences(req, res, url.pathname);
+    return;
+  }
+
+  if (url.pathname === "/sitemap.xml") {
+    handleSitemap(req, res);
     return;
   }
 

@@ -1,16 +1,5 @@
 const featuredDepartures = [
   {
-    kicker: "Greece",
-    title: "A Crete departure",
-    name: "Greece Creta & Tennis Experience",
-    summary:
-      "Crete tennis academy play, Heraklion culture, a boat excursion, padel discovery, and Cretan dining—October 7-14, 2026 at $6,800 USD per person.",
-    href: "/destinations/international/#international-trip-greece",
-    month: "October 2026",
-    dates: "Oct 7–14",
-    image: "/assets/editorial/departure-crete.jpg",
-  },
-  {
     kicker: "Spain",
     title: "A Marbella departure",
     name: "Marbella Spain & Tennis Experience",

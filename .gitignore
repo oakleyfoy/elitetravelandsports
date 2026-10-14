@@ -9,6 +9,9 @@ playwright-report/
 blob-report/
 playwright/.cache/
 
+# Past Experiences placeholder trips (local preview only)
+data/past-experiences.sample.json
+
 # Env / secrets (if you add later)
 .env
 .env.*
