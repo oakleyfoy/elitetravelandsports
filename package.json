@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
+    "preview:sample": "PAST_EXPERIENCES_SAMPLE=1 node server.js",
     "qa:viewport": "playwright test tests/viewport-qa.spec.js",
     "serve": "serve -l 8765 ."
   },
