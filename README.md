@@ -1,63 +1,130 @@
 # Elite Travel and Sports Tours USA
 
-A premium static landing page for a USA-facing sister brand focused on guided international tennis travel worldwide.
+A premium landing page for a USA-facing sister brand focused on guided international tennis travel worldwide.
 
 ## Files
 
 - `index.html` - Page structure and marketing content.
 - `styles.css` - Visual design, responsive layout, and brand styling.
 - `script.js` - Mobile navigation, sticky header state, and dynamic footer year.
+- `server.js` - Serves the site, renders trip pages, and handles the inquiry API.
+- `data/trips.json` - Every departure, upcoming and past.
 
 ## Run Locally
 
-Open `index.html` in a browser, or serve the folder with any static server.
-
 ```bash
-python -m http.server 8000
+npm start
 ```
 
-Then visit `http://localhost:8000`.
+Then visit `http://localhost:10000`. Use the Node server rather than a static file server: the homepage,
+`/destinations/international/`, `/destinations/morocco/`, and `/past-experiences/` are rendered from trip data and
+contain `{{TOKENS}}` when opened as plain files.
 
-## Past Experiences
+Run `npm test` after editing trips. It checks `data/trips.json` and the date rules.
 
-`/past-experiences/` and each trip page are rendered by `server.js` from `data/past-experiences.json`, using the
-templates `past-experiences/index.html` and `past-experiences/_trip.html`. Run the site with `npm start` (not a
-static server) to see them.
+## Trips
 
-To add a completed trip:
+Each trip is entered once in `data/trips.json`. The server decides where it appears on every page load, using the
+current date in the trip's own `timeZone`:
 
-1. Put compressed photos (about 2000px wide, under 500 KB each) in `assets/past-experiences/<slug>/`.
-2. Upload videos to YouTube or Vimeo. Never commit video files.
-3. Add an entry to the `trips` list in `data/past-experiences.json`:
+- Before its `startDate`, the trip is **open for booking**: it appears in the homepage departure list, the homepage
+  featured rotation (if it has `featured`), the Worldwide Experiences page, the search descriptions, the homepage
+  footer destination line, and, for Morocco trips, the Morocco page and its form dropdown.
+- From its `startDate` through its `endDate`, it stays listed with its dates, price, and itinerary, labeled
+  "Departure in progress". It leaves the featured rotation, the search descriptions, the footer destination line, and
+  the Morocco form dropdown.
+- From the day after its `endDate`, it is **past**: it disappears from all of those and appears on Past Experiences
+  with its title, dates, destination, and cover. Past pages never show a price, PDF, or booking prompt.
+- A trip with `"status": "cancelled"` appears nowhere.
+
+When nothing is open for booking, the homepage and Worldwide Experiences page show "New experiences are on the
+horizon. Explore our past journeys or contact us to plan your next adventure." The Morocco page shows "There are
+currently no scheduled Morocco departures. Contact our team to explore future opportunities." and its form offers
+"Future Morocco departures".
+
+No commit or redeploy is needed for a trip to move. Pages are sent with `Cache-Control: no-cache` so browsers pick up
+the change the same day.
+
+### Trip fields
 
 ```json
 {
-  "slug": "example-trip-2027",
-  "title": "Trip title",
-  "destination": "City, Country",
-  "startDate": "2027-05-12",
-  "endDate": "2027-05-19",
-  "summary": "One or two sentences used on the page and in search results.",
-  "coverImage": { "src": "/assets/past-experiences/example-trip-2027/cover.jpg", "alt": "Describe the photo" },
-  "description": ["Paragraph one.", "Paragraph two."],
-  "highlights": ["Highlight one", "Highlight two"],
-  "gallery": [
-    {
-      "src": "/assets/past-experiences/example-trip-2027/01.jpg",
-      "thumbnail": "/assets/past-experiences/example-trip-2027/thumbs/01.jpg",
-      "alt": "Describe the photo",
-      "caption": "Optional"
-    }
-  ],
-  "videos": [{ "url": "https://www.youtube.com/watch?v=VIDEO_ID", "title": "Describe the video" }]
+  "slug": "spain-marbella-2027",
+  "title": "Marbella Spain & Tennis Experience",
+  "country": "Spain",
+  "destination": "Marbella, Spain",
+  "timeZone": "Europe/Madrid",
+  "startDate": "2027-01-27",
+  "endDate": "2027-02-03",
+  "price": "$6,800 USD per person",
+  "summary": "Shown on the upcoming card, and on the past page when the trip has an itinerary.",
+  "printableItinerary": "/destinations/Marbella%20Spain%20%26%20Tennis%20Experience.pdf",
+  "anchor": "international-trip-spain",
+  "anchorTarget": "itinerary",
+  "homeImage": "/assets/editorial/example.jpg",
+  "featured": {
+    "kicker": "Spain",
+    "title": "A Marbella departure",
+    "summary": "Featured panel text; the dates and price are added automatically",
+    "image": "/assets/destinations/example.jpg"
+  }
 }
 ```
 
-`slug`, `title`, `destination`, `summary`, both dates, and a cover image with `alt` text are required; a trip missing
-any of them is skipped and the reason is logged. `description`, `highlights`, `gallery`, and `videos` are optional, and
-empty sections are left off the page. An image's `thumbnail` (a smaller copy shown on the page; the full image opens
-in the viewer) and `caption` are optional. Video `url` accepts YouTube links and Vimeo links, including unlisted Vimeo links.
-Trip pages are added to `/sitemap.xml` automatically.
+- Required: `slug`, `title`, `country`, `destination`, `timeZone` (an IANA name such as `Europe/Rome`), `startDate`,
+  `endDate`, and `summary`. Dates are always `YYYY-MM-DD`. If any trip has a missing or invalid field, the trip pages
+  return a "temporarily unavailable" error page instead of an incomplete schedule, the server log lists every
+  problem, and `npm test` fails. Run `npm test` before publishing trip edits.
+- `price`: leave it out while details are pending; the trip shows "More info coming soon" instead.
+- `status`: `"scheduled"` (default) or `"cancelled"`.
+- `printableItinerary`: PDF link on upcoming cards only.
+- `anchor`: the id used by links such as `/destinations/international/#international-trip-spain`. `anchorTarget`
+  `"itinerary"` puts it on the itinerary so the link opens it; the default `"card"` scrolls to the card.
+- `moroccoPageAnchor`: the itinerary id on the Morocco page (Morocco trips only).
+- `homeImage`: background for the homepage departure card. `featured`: include it to add the trip to the homepage
+  featured rotation, which shows one upcoming featured trip per day.
+- `pastSummary`: replaces `summary` on the Past Experiences page.
+
+The day-by-day itinerary lives in `data/itineraries/<slug>.html` as `<section>` blocks. It is shown on upcoming cards
+and on the past trip page. Leave prices and links out of it.
+
+### Adding photos and videos after a trip
+
+Media can be added at any time; it never changes when a trip moves. Until a trip has a `coverImage`, it uses a
+branded "Photos coming soon" cover, and until it has a `gallery` or `videos`, its page shows "Photos and videos
+coming soon".
+
+1. Put compressed photos (about 2000px wide, under 500 KB each) in `assets/past-experiences/<slug>/`, with smaller
+   copies in `thumbs/`.
+2. Upload videos to YouTube or Vimeo (unlisted is fine). Never commit video files.
+3. Add these fields to the trip in `data/trips.json`:
+
+```json
+"coverImage": {
+  "src": "/assets/past-experiences/example-trip-2027/cover.jpg",
+  "thumbnail": "/assets/past-experiences/example-trip-2027/thumbs/cover.jpg",
+  "alt": "Describe the photo"
+},
+"gallery": [
+  {
+    "src": "/assets/past-experiences/example-trip-2027/01.jpg",
+    "thumbnail": "/assets/past-experiences/example-trip-2027/thumbs/01.jpg",
+    "alt": "Describe the photo",
+    "caption": "Optional"
+  }
+],
+"videos": [{ "url": "https://www.youtube.com/watch?v=VIDEO_ID", "title": "Describe the video" }],
+"description": ["Optional paragraph."],
+"highlights": ["Optional highlight"]
+```
+
+Images need `alt` text; `thumbnail` and `caption` are optional. Video `url` accepts YouTube and Vimeo links, including
+unlisted Vimeo links. Past trip pages are added to `/sitemap.xml` automatically.
+
+### Previewing other dates
+
+`ELITE_TODAY=2027-02-04 npm start` shows the site as it will look on that date in every time zone. Render ignores
+`ELITE_TODAY`.
 
 `npm run preview:sample` also loads labeled placeholder trips from `data/past-experiences.sample.json`, a local-only
 file that is git-ignored and never committed. Placeholder trips never load on Render.
