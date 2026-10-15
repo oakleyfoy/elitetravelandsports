@@ -185,29 +185,7 @@
           </div>
 
           <div class="destination-model" aria-label="Destination model">
-            <article class="morocco-feature" data-featured-departure>
-              <div class="morocco-feature-content">
-                <span data-feature-kicker>Morocco Experiences</span>
-                <h3 data-feature-title>A Marrakech departure</h3>
-                <p data-feature-name>Marrakech Discovery &amp; Tennis Experience</p>
-                <small data-feature-summary>
-                  Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits,
-                  refined dining, and transfers—on March 13–20, 2027 at $6,800 USD per person.
-                </small>
-                <ul>
-                  <li>Fixed departure date</li>
-                  <li>Limited availability</li>
-                  <li>Hosted on the ground</li>
-                </ul>
-              </div>
-
-              <div class="morocco-destination-capsules" aria-label="Featured departure">
-                <a data-feature-link href="/destinations/international/#international-trip-morocco">
-                  <strong data-feature-month>March 2027</strong>
-                  <span data-feature-dates>Mar 13–20</span>
-                </a>
-              </div>
-            </article>
+            {{FEATURED_DEPARTURE}}
 
             <div class="hosted-departures">
               <div class="hosted-departures-intro">
@@ -221,53 +199,7 @@
               </div>
 
               <div class="departure-strip" aria-label="International hosted departures">
-                <a class="departure-item departure-spain" href="/destinations/international/#international-trip-spain">
-                  <span>Spain</span>
-                  <h3>Marbella Spain &amp; Tennis Experience</h3>
-                  <p>January 27 – February 3, 2027 · $6,800 USD per person</p>
-                </a>
-
-                <a class="departure-item departure-morocco-mar-2027" href="/destinations/international/#international-trip-morocco">
-                  <span>Morocco</span>
-                  <h3>Marrakech Discovery &amp; Tennis Experience</h3>
-                  <p>March 13–20, 2027 · $6,800 USD per person</p>
-                </a>
-
-                <a class="departure-item departure-tokyo" href="/destinations/international/#international-trip-tokyo">
-                  <span>Japan</span>
-                  <h3>Tokyo Tennis Experience</h3>
-                  <p>April 14-21, 2027 · $7,800 USD per person</p>
-                </a>
-
-                <a class="departure-item departure-portugal" href="/destinations/international/#international-trip-portugal">
-                  <span>Portugal</span>
-                  <h3>Algarve Portugal &amp; Tennis Experience</h3>
-                  <p>May 12–19, 2027 · $6,800 USD per person</p>
-                </a>
-
-                <a class="departure-item departure-croatia" href="/destinations/international/#international-trip-croatia">
-                  <span>Croatia</span>
-                  <h3>Dubrovnik &amp; Split Croatia &amp; Tennis Experience</h3>
-                  <p>June 2–9, 2027 · $7,800 USD per person</p>
-                </a>
-
-                <a class="departure-seasonal" href="/destinations/international/#international-trip-lake-como">
-                  <span>Italy</span>
-                  <h3>Lake Como Italy &amp; Tennis Experience</h3>
-                  <p>June 16–23, 2027 · More info coming soon</p>
-                </a>
-
-                <a class="departure-seasonal" href="/destinations/international/#international-trip-french-riviera">
-                  <span>France</span>
-                  <h3>French Riviera &amp; Tennis Experience</h3>
-                  <p>September 8–15, 2027 · More info coming soon</p>
-                </a>
-
-                <a class="departure-seasonal" href="/destinations/international/#international-trip-sicily">
-                  <span>Italy</span>
-                  <h3>Sicily Italy &amp; Tennis Experience</h3>
-                  <p>November 3-10, 2027 · More info coming soon</p>
-                </a>
+                {{DEPARTURE_STRIP}}
               </div>
             </div>
           </div>
@@ -404,7 +336,7 @@
         <div class="footer-prelude-inner">
           <p class="eyebrow">Elite Travel &amp; Sports Tours USA</p>
           <h2>Private international tennis departures.</h2>
-          <p class="footer-prelude-destinations">Morocco • Portugal • Spain • Seasonal Releases</p>
+          {{FOOTER_DESTINATIONS}}
           <p>
             Private groups, hosted flagship weeks, and concierge planning—every format carries the same standard of
             on-ground stewardship and itineraries that deepen the place intellectually as well as visually.

@@ -3,6 +3,7 @@ const http = require("node:http");
 const path = require("node:path");
 const { URL } = require("node:url");
 const { handlePastExperiences, handleSitemap } = require("./lib/past-experiences");
+const { handleUpcomingPage, isTemplateFile, isUpcomingPage } = require("./lib/upcoming");
 
 const PORT = process.env.PORT || 10000;
 const ROOT_DIR = __dirname;
@@ -492,7 +493,10 @@ function resolveStaticPath(pathname) {
 }
 
 function isPrivatePath(filePath) {
-  const segments = path.relative(ROOT_DIR, filePath).toLowerCase().split(path.sep);
+  const relativePath = path.relative(ROOT_DIR, filePath).toLowerCase();
+  // Trip page templates contain {{TOKENS}} and must only be reached through the rendered routes.
+  if (isTemplateFile(relativePath)) return true;
+  const segments = relativePath.split(path.sep);
   if (segments.some((segment) => segment.startsWith("."))) return true;
   if (PRIVATE_DIRS.has(segments[0])) return true;
   return segments.length === 1 && PRIVATE_ROOT_FILES.has(segments[0]);
@@ -533,6 +537,11 @@ const server = http.createServer((req, res) => {
 
   if (url.pathname === "/sitemap.xml") {
     handleSitemap(req, res);
+    return;
+  }
+
+  if (isUpcomingPage(url.pathname)) {
+    handleUpcomingPage(req, res, url.pathname);
     return;
   }
 
