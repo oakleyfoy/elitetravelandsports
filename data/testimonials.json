@@ -1,0 +1,53 @@
+{
+  "testimonials": [
+    {
+      "id": "marrakech-2026-claire-fripp",
+      "quote": "Such an amazing week! Thanks for making it a perfect mix of tennis, local cuisine and adventuring around Marrakesh! Loved it and will be back.",
+      "displayName": "Claire Fripp",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "marrakech-2026-orest-hrabowych",
+      "quote": "Great fun group. Thank you, Ismael, Samara, and Elite Travels for a well-organized tennis and Marrakech week.",
+      "displayName": "Orest Hrabowych",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "marrakech-2026-indu-tursa",
+      "quote": "I cannot speak highly enough about our experience and the owners of this tour group.",
+      "displayName": "Indu Tursa",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": true,
+      "excerpt": true
+    },
+    {
+      "id": "marrakech-2026-margaret",
+      "quote": "Ismael I can’t thank you and your wife Samar enough for this wonderful experience. You have my trust always!",
+      "displayName": "Margaret",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "marrakech-2026-margaret-depiore-neiheisel",
+      "quote": "This is such a great group! I can’t wait to go on another trip with them!",
+      "displayName": "Margaret DePiore Neiheisel",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": false
+    },
+    {
+      "id": "marrakech-2026-kaaren-shaefler",
+      "quote": "it was a wonderful experience! thank you",
+      "displayName": "Kaaren Shaefler",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": false
+    }
+  ]
+}
