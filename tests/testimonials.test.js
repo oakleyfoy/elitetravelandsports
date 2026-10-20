@@ -11,7 +11,12 @@ const {
   testimonialsForExperience,
 } = require("../lib/testimonials");
 const { loadTrips, pastTrips, currentClock } = require("../lib/trips");
-const { renderListPage, renderTripPage } = require("../lib/past-experiences");
+const {
+  renderListPage,
+  renderTripPage,
+  interleaveGalleryWithTestimonials,
+  GALLERY_LAYOUT_EDITORIAL,
+} = require("../lib/past-experiences");
 
 const DATA_FILE = path.join(__dirname, "..", "data", "testimonials.json");
 
@@ -34,8 +39,8 @@ function withTestimonialsFile(entries, fn) {
 
 test("Marrakech 2026 testimonials load uniquely under morocco-marrakech-2026", () => {
   const items = loadTestimonials();
-  assert.equal(items.length, 6);
-  assert.equal(new Set(items.map((item) => item.id)).size, 6);
+  assert.equal(items.length, 9);
+  assert.equal(new Set(items.map((item) => item.id)).size, 9);
   assert.ok(items.every((item) => item.experienceSlug === "morocco-marrakech-2026"));
   assert.ok(items.every((item) => item.published));
 
@@ -47,6 +52,9 @@ test("Marrakech 2026 testimonials load uniquely under morocco-marrakech-2026", (
     "Margaret",
     "Margaret DePiore Neiheisel",
     "Kaaren Shaefler",
+    "Jay Coppic",
+    "Marrakech Traveler",
+    "Marrakech Traveler",
   ]);
 
   const indu = items.find((item) => item.id === "marrakech-2026-indu-tursa");
@@ -55,6 +63,12 @@ test("Marrakech 2026 testimonials load uniquely under morocco-marrakech-2026", (
     "I cannot speak highly enough about our experience and the owners of this tour group.",
   );
   assert.equal(indu.excerpt, true);
+
+  const jay = items.find((item) => item.id === "marrakech-2026-jay-coppic");
+  assert.equal(jay.quote, "great trip!");
+  assert.equal(jay.displayName, "Jay Coppic");
+  assert.equal(items.filter((item) => item.displayName === "Marrakech Traveler").length, 2);
+  assert.doesNotMatch(JSON.stringify(items), /\+\d{7,}|\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/);
 });
 
 test("publishedTestimonials ignores unpublished and unknown trip slugs", () => {
@@ -130,7 +144,66 @@ test("list page features Claire, Orest, Indu, and Margaret only", () => {
   }
 });
 
-test("Marrakech detail shows all six; Greece detail shows none", () => {
+test("interleaveGalleryWithTestimonials keeps photo order and spreads quotes", () => {
+  const photos = Array.from({ length: 31 }, (_, i) => ({ id: i + 1 }));
+  const quotes = ["a", "b", "c", "d", "e", "f", "g", "h", "i"].map((id) => ({ id }));
+  const items = interleaveGalleryWithTestimonials(photos, quotes);
+  const photoIds = items.filter((item) => item.type === "photo").map((item) => item.photo.id);
+  const quoteIds = items.filter((item) => item.type === "testimonial").map((item) => item.testimonial.id);
+
+  assert.deepEqual(photoIds, photos.map((photo) => photo.id));
+  assert.deepEqual(quoteIds, ["a", "b", "c", "d", "e", "f", "g", "h", "i"]);
+  assert.equal(items.filter((item) => item.type === "testimonial").length, 9);
+
+  // Roughly one quote every few photos for 31/9.
+  const gaps = [];
+  let photosSinceQuote = 0;
+  for (const item of items) {
+    if (item.type === "photo") {
+      photosSinceQuote += 1;
+      continue;
+    }
+    gaps.push(photosSinceQuote);
+    photosSinceQuote = 0;
+  }
+  assert.ok(gaps.every((gap) => gap >= 2 && gap <= 5));
+});
+
+test("Option B editorial collage keeps lightbox photo items and mixed tile classes", () => {
+  const previous = process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
+  delete process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
+
+  try {
+    const past = pastTrips(loadTrips(), currentClock());
+    const marrakech = past.find((item) => item.slug === "morocco-marrakech-2026");
+    assert.ok(marrakech);
+    const html = renderTripPage(marrakech, past, { galleryLayout: GALLERY_LAYOUT_EDITORIAL });
+
+    assert.match(html, /past-gallery--editorial/);
+    assert.match(html, /past-gallery-tile--wide/);
+    assert.match(html, /past-gallery-tile--tall/);
+    assert.match(html, /past-gallery-quote--single/);
+    assert.match(html, /past-gallery-quote--double/);
+    assert.doesNotMatch(html, /Layout preview · Option B/);
+    assert.equal((html.match(/data-gallery-item/g) || []).length, marrakech.gallery.length);
+    assert.equal((html.match(/data-gallery-testimonial/g) || []).length, 9);
+    assert.match(html, /great trip!/);
+    assert.match(html, /Jay Coppic/);
+    assert.equal((html.match(/Marrakech Traveler/g) || []).length, 2);
+    assert.match(html, /srcset="/);
+    assert.doesNotMatch(html, /past-testimonials-heading/);
+
+    const classic = renderTripPage(marrakech, past, { galleryLayout: "classic" });
+    assert.doesNotMatch(classic, /past-gallery--editorial/);
+    assert.match(classic, /past-gallery-quote"/);
+    assert.equal((classic.match(/data-gallery-testimonial/g) || []).length, 9);
+  } finally {
+    if (previous === undefined) delete process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
+    else process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW = previous;
+  }
+});
+
+test("Marrakech detail interleaves all six in the gallery; Greece unchanged", () => {
   const previous = process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
   delete process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
 
@@ -142,24 +215,39 @@ test("Marrakech detail shows all six; Greece detail shows none", () => {
     assert.ok(greece);
 
     const marrakechPage = renderTripPage(marrakech, past);
-    assert.equal((marrakechPage.match(/class="past-testimonial-card"/g) || []).length, 6);
+    assert.equal((marrakechPage.match(/data-gallery-item/g) || []).length, marrakech.gallery.length);
+    assert.equal((marrakechPage.match(/data-gallery-testimonial/g) || []).length, 9);
+    assert.doesNotMatch(marrakechPage, /past-testimonials-heading/);
+    assert.doesNotMatch(marrakechPage, /class="past-testimonial-card"/);
     assert.match(marrakechPage, /Claire Fripp/);
     assert.match(marrakechPage, /Orest Hrabowych/);
     assert.match(marrakechPage, /Indu Tursa/);
     assert.match(marrakechPage, />Margaret</);
     assert.match(marrakechPage, /Margaret DePiore Neiheisel/);
     assert.match(marrakechPage, /Kaaren Shaefler/);
+    assert.match(marrakechPage, /Jay Coppic/);
     assert.match(marrakechPage, /it was a wonderful experience! thank you/);
+    assert.match(marrakechPage, /data-excerpt="true"/);
+    assert.equal((marrakechPage.match(/Marrakech Traveler/g) || []).length, 2);
+
+    // Quotes appear inside the gallery list, not after the CTA.
+    assert.match(marrakechPage, /past-gallery--editorial/);
+    const galleryStart = marrakechPage.indexOf("past-gallery past-gallery--editorial");
+    const galleryEnd = marrakechPage.indexOf("</ul>", galleryStart);
+    const galleryHtml = marrakechPage.slice(galleryStart, galleryEnd);
+    assert.equal((galleryHtml.match(/data-gallery-testimonial/g) || []).length, 9);
 
     const greecePage = renderTripPage(greece, past);
     assert.doesNotMatch(greecePage, /past-testimonials-heading/);
+    assert.doesNotMatch(greecePage, /data-gallery-testimonial/);
     assert.doesNotMatch(greecePage, /Claire Fripp/);
+    assert.doesNotMatch(greecePage, /past-gallery--editorial/);
+    assert.equal((greecePage.match(/data-gallery-item/g) || []).length, greece.gallery.length);
   } finally {
     if (previous === undefined) delete process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
     else process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW = previous;
   }
 });
-
 test("quotes are HTML-escaped in rendered output", () => {
   const previous = process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
   delete process.env.ELITE_TESTIMONIALS_LAYOUT_PREVIEW;
