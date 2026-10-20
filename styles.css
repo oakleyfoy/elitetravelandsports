@@ -4,6 +4,8 @@
   --cream: #f5efe4;
   --sand: #d9c8ad;
   --gold: #bd9556;
+  /* Light sky blue from the Elite logo runner / swoosh */
+  --logo-blue: #90c8e8;
   --clay: #a85f3d;
   --olive: #435447;
   --deep: #101715;
@@ -4409,8 +4411,8 @@ h3 {
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
-  background: var(--gold);
-  border: 1px solid var(--gold);
+  background: var(--logo-blue);
+  border: 1px solid var(--logo-blue);
   border-radius: 999px;
   transition:
     background 160ms ease,
@@ -4423,7 +4425,7 @@ h3 {
 .destinations-page .claim-spot-button:focus-visible {
   color: var(--white);
   background: transparent;
-  border-color: rgba(201, 161, 91, 0.72);
+  border-color: rgba(144, 200, 232, 0.72);
   transform: translateY(-1px);
 }
 
