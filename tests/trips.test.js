@@ -185,7 +185,7 @@ describe("trip status by destination-local date", () => {
 
 describe("loading and validating trips", () => {
   test("the real data file loads every trip", () => {
-    assert.equal(realTrips().length, 9);
+    assert.equal(realTrips().length, 10);
   });
 
   test("every itinerary file belongs to a trip and none mention prices or PDFs", () => {
@@ -426,6 +426,50 @@ describe("rendered pages move trips automatically", () => {
     assert.doesNotMatch(html, /Photos and videos coming soon|past-cover-placeholder|\$|\.pdf/);
   });
 
+  test("Marrakech 2026 past trip appears before Greece despite an earlier end date", () => {
+    const past = pastTrips(trips, on("2026-10-15"));
+    assert.equal(past[0].slug, "morocco-marrakech-2026");
+    assert.equal(past[0].pastDisplayOrder, 1);
+    assert.equal(past[1].slug, "greece-crete-2026");
+    assert.equal(past[1].pastDisplayOrder, null);
+    const list = renderListPage(past);
+    assert.match(list, /Wish You Were Here\?/);
+    assert.match(list, /data-trip="morocco-marrakech-2026"[\s\S]*data-trip="greece-crete-2026"/);
+    assert.doesNotMatch(list, /data-trip="greece-crete-2026"[\s\S]*data-trip="morocco-marrakech-2026"/);
+  });
+
+  test("Marrakech 2026 gallery uses all 33 photos without inventing an itinerary", () => {
+    const morocco = pastTrips(trips, on("2026-10-15")).find((item) => item.slug === "morocco-marrakech-2026");
+    const html = renderTripPage(morocco);
+    assert.equal((html.match(/data-gallery-item/g) || []).length, 33);
+    assert.match(html, /01-team-on-clay-court\.jpg/);
+    assert.match(html, /January 30 – February 7, 2026/);
+    assert.doesNotMatch(html, /Day 1:|past-itinerary|Photos and videos coming soon|past-cover-placeholder/);
+  });
+
+  test("upcoming Morocco 2027 stays separate from the historical Marrakech gallery", () => {
+    const html = render("2027-01-01");
+    assert.match(html["/destinations/international/"], /data-trip="morocco-marrakech-2027"/);
+    assert.match(html["/destinations/morocco/"], /March 13–20, 2027/);
+    assert.match(html["/destinations/morocco/"], /\$6,800 USD per person/);
+    assert.doesNotMatch(html["/destinations/international/"], /morocco-marrakech-2026/);
+    assert.doesNotMatch(html.past, /morocco-marrakech-2027/);
+    assert.match(html.past, /morocco-marrakech-2026/);
+  });
+
+  test("pastDisplayOrder pins listed trips; others stay newest first", () => {
+    const ordered = load([
+      trip({ slug: "older", title: "Older", startDate: "2025-01-01", endDate: "2025-01-08", pastDisplayOrder: 2 }),
+      trip({ slug: "newer", title: "Newer", startDate: "2026-06-01", endDate: "2026-06-08" }),
+      trip({ slug: "pinned", title: "Pinned", startDate: "2024-01-01", endDate: "2024-01-08", pastDisplayOrder: 1 }),
+      trip({ slug: "mid", title: "Mid", startDate: "2025-06-01", endDate: "2025-06-08" }),
+    ]);
+    assert.deepEqual(
+      pastTrips(ordered, on("2027-01-01")).map((item) => item.slug),
+      ["pinned", "older", "newer", "mid"],
+    );
+  });
+
   test("Morocco page and form offer the departure only until it starts", () => {
     const before = render("2027-03-12")["/destinations/morocco/"];
     assert.match(before, /id="morocco-program-mar-2027"/);
@@ -463,7 +507,7 @@ describe("rendered pages move trips automatically", () => {
     assert.match(html["/destinations/international/"], /href="\/past-experiences\/"/);
     assert.doesNotMatch(html["/destinations/international/"], /scheduled departures|remaining space/);
     assert.match(render("2027-06-10")["/destinations/international/"], /contact Elite to confirm remaining space/);
-    assert.equal((html.past.match(/class="past-trip-card"/g) || []).length, 9);
+    assert.equal((html.past.match(/class="past-trip-card"/g) || []).length, 10);
   });
 
   test("cancelled trips disappear from upcoming and never reach Past Experiences", () => {

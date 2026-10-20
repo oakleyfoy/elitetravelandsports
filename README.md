@@ -84,6 +84,9 @@ the change the same day.
 - `homeImage`: background for the homepage departure card. `featured`: include it to add the trip to the homepage
   featured rotation, which shows one upcoming featured trip per day.
 - `pastSummary`: replaces `summary` on the Past Experiences page.
+- `pastDisplayOrder`: optional positive whole number that pins a past trip ahead of the default newest-first list
+  (lower numbers appear first). Trips without it still sort by end date, newest first, after any pinned trips.
+  This does not change whether a trip is past or upcoming.
 
 The day-by-day itinerary lives in `data/itineraries/<slug>.html` as `<section>` blocks. It is shown on upcoming cards
 and on the past trip page. Leave prices and links out of it.

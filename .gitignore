@@ -15,3 +15,7 @@ data/past-experiences.sample.json
 # Env / secrets (if you add later)
 .env
 .env.*
+
+# Local WeTransfer / media workspaces (never publish originals or videos)
+.tmp-morocco-wetransfer/
+.tmp-*-wetransfer/

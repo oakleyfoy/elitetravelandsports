@@ -1,6 +1,191 @@
 {
   "trips": [
     {
+      "slug": "morocco-marrakech-2026",
+      "title": "Marrakech Tennis Experience",
+      "country": "Morocco",
+      "destination": "Marrakech, Morocco",
+      "timeZone": "Africa/Casablanca",
+      "startDate": "2026-01-30",
+      "endDate": "2026-02-07",
+      "pastDisplayOrder": 1,
+      "summary": "Photo gallery from the Marrakech Tennis Experience in Marrakech, Morocco.",
+      "pastSummary": "Photo gallery from the Marrakech Tennis Experience in Marrakech, Morocco.",
+      "anchor": "past-trip-morocco-marrakech-2026",
+      "coverImage": {
+        "src": "/assets/past-experiences/morocco-marrakech-2026/01-team-on-clay-court.jpg",
+        "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/01-team-on-clay-court.jpg",
+        "alt": "Travelers in white Elite shirts and navy hoodies pose with rackets on a red clay court under palm trees and a blue sky"
+      },
+      "gallery": [
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/01-team-on-clay-court.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/01-team-on-clay-court.jpg",
+          "alt": "Travelers in white Elite shirts and navy hoodies pose with rackets on a red clay court under palm trees and a blue sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/02-group-on-clay-court.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/02-group-on-clay-court.jpg",
+          "alt": "Full group in matching white Elite shirts poses on a red clay tennis court with palm trees behind them"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/03-court-awards-group.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/03-court-awards-group.jpg",
+          "alt": "Large group holding rackets and wooden plaques poses across a red clay court under a clear blue sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/04-tournament-group-at-net.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/04-tournament-group-at-net.jpg",
+          "alt": "Travelers and coaches gather at the tennis net with awards and rackets on a sunny clay court"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/05-elite-banner-at-courts.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/05-elite-banner-at-courts.jpg",
+          "alt": "Elite Tennis Sports Tours Morocco banner hangs on a court fence with a red clay court and Moroccan flags beyond"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/06-clay-court-play.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/06-clay-court-play.jpg",
+          "alt": "Players compete on outdoor red clay courts under a bright blue sky with palm trees and buildings beyond"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/07-padel-lesson.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/07-padel-lesson.jpg",
+          "alt": "Coach in an orange jacket feeds balls to players holding padel rackets on a red padel court"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/08-friends-on-padel-court.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/08-friends-on-padel-court.jpg",
+          "alt": "Five travelers stand together on a red clay court framed by black fencing, palm trees, and blue sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/09-shoe-donation-drive.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/09-shoe-donation-drive.jpg",
+          "alt": "Traveler gives a thumbs-up beside an Elite Travels & Sports Morocco shoe-donation sign and donated sneakers"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/10-courtyard-lunch.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/10-courtyard-lunch.jpg",
+          "alt": "Four travelers smile at a low table of Moroccan food and tea before colorful rugs on an earthen wall"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/11-group-tea-table.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/11-group-tea-table.jpg",
+          "alt": "Six travelers gather around a low table with bread, dips, and tea glasses in a rustic Moroccan courtyard"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/12-tea-pouring-portrait.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/12-tea-pouring-portrait.jpg",
+          "alt": "Woman in a red robe and black headscarf pours tea from a silver teapot into small glasses"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/13-tea-service.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/13-tea-service.jpg",
+          "alt": "Host pours tea from a silver teapot into a guest's glass in a rustic clay-walled room"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/14-cooking-class.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/14-cooking-class.jpg",
+          "alt": "Travelers in red aprons and chef hats sit at a long table lined with tagines under a reed roof"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/15-spice-bowls.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/15-spice-bowls.jpg",
+          "alt": "Two rows of colorful miniature ceramic pots hold olives, herbs, preserved lemon, and Moroccan spices"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/16-tagine-table.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/16-tagine-table.jpg",
+          "alt": "Overhead view of a dining table ringed with colorful miniature tagines, bread, and place settings"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/17-blue-wall-dinner.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/17-blue-wall-dinner.jpg",
+          "alt": "Travelers seated at a round table before a cobalt-blue wall with brass lanterns and mosaic tile"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/18-dinner-with-fezzes.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/18-dinner-with-fezzes.jpg",
+          "alt": "Travelers wearing red fezzes smile around a long wooden dining table under woven pendant lamps"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/19-restaurant-evening.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/19-restaurant-evening.jpg",
+          "alt": "Group seated at a long restaurant table under fringed pendant lamps in warm evening light"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/20-red-carpet-performance.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/20-red-carpet-performance.jpg",
+          "alt": "Performers in red dresses pose along a red carpet runway in a chandelier-lit Moroccan venue"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/21-neon-dance-sign.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/21-neon-dance-sign.jpg",
+          "alt": "Pink neon sign reading Trust Me You Can Dance Tequila on a yellow tiled wall"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/22-elite-night-display.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/22-elite-night-display.jpg",
+          "alt": "Nighttime outdoor display spelling Elite Travels & Antoine beside lit Moroccan architecture and palms"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/23-camel-trek-line.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/23-camel-trek-line.jpg",
+          "alt": "Travelers in matching blue robes ride camels in a single-file line across rocky desert terrain"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/24-camel-trek-mountains.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/24-camel-trek-mountains.jpg",
+          "alt": "Camel caravan of travelers in blue robes crosses desert flats with snow-capped mountains ahead"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/25-camel-ridge.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/25-camel-ridge.jpg",
+          "alt": "Line of travelers in blue robes riding camels along a desert ridge under wispy clouds"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/26-desert-blue-robes.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/26-desert-blue-robes.jpg",
+          "alt": "Group in matching blue robes waves for a photo in the desert with camels resting behind them"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/27-camel-hills-vista.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/27-camel-hills-vista.jpg",
+          "alt": "Camel riders traverse rolling brown hills with hazy blue mountains under a pale sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/28-quad-bike-group.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/28-quad-bike-group.jpg",
+          "alt": "Travelers in helmets and goggles pose with red and blue quad bikes among palm trees at golden hour"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/29-heart-frame-overlook.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/29-heart-frame-overlook.jpg",
+          "alt": "Four travelers pose inside a white heart-shaped frame overlooking desert hills and snow-capped mountains"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/30-pool-atlas-view.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/30-pool-atlas-view.jpg",
+          "alt": "Long resort pool lined with lounge chairs faces rolling hills and snow-capped Atlas Mountains"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/31-desert-camp.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/31-desert-camp.jpg",
+          "alt": "Luxury desert bungalows with dark peaked roofs sit among agave plants under a bright blue sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/32-bedouin-lodge-sign.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/32-bedouin-lodge-sign.jpg",
+          "alt": "Stone wall sign reading Le Bedouin Lodge flanked by cacti under a pale blue sky"
+        },
+        {
+          "src": "/assets/past-experiences/morocco-marrakech-2026/33-atlas-terrace-view.jpg",
+          "thumbnail": "/assets/past-experiences/morocco-marrakech-2026/thumbs/33-atlas-terrace-view.jpg",
+          "alt": "Snow-capped Atlas Mountains rise beyond rolling hills, seen from a wooden terrace with agave plants"
+        }
+      ]
+    },
+    {
       "slug": "greece-crete-2026",
       "title": "Greece Creta & Tennis Experience",
       "country": "Greece",
@@ -143,7 +328,7 @@
       "featured": {
         "kicker": "Morocco Experiences",
         "title": "A Marrakech departure",
-        "summary": "Scheduled Morocco week with the Marrakech-centered itinerary—daily tennis, guided cultural visits, refined dining, and transfers",
+        "summary": "Scheduled Morocco week with the Marrakech-centered itinerary\u2014daily tennis, guided cultural visits, refined dining, and transfers",
         "image": "/assets/destinations/hero-panel.jpg"
       }
     },
@@ -156,14 +341,14 @@
       "startDate": "2027-04-14",
       "endDate": "2027-04-21",
       "price": "$7,800 USD per person",
-      "summary": "Hotel New Otani Tokyo, The Main — the 5-star hotel, not Garden Tower — morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day.",
+      "summary": "Hotel New Otani Tokyo, The Main \u2014 the 5-star hotel, not Garden Tower \u2014 morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day.",
       "printableItinerary": "/destinations/Tokyo%20Tennis%20Experience.pdf",
       "anchor": "international-trip-tokyo",
       "homeImage": "/assets/editorial/departure-tokyo-shibuya.jpg",
       "featured": {
         "kicker": "Japan",
         "title": "A Tokyo departure",
-        "summary": "Hotel New Otani Tokyo, The Main — the 5-star hotel, not Garden Tower — morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day",
+        "summary": "Hotel New Otani Tokyo, The Main \u2014 the 5-star hotel, not Garden Tower \u2014 morning tennis, TeamLab Planets, Asakusa, Shibuya, Mt. Fuji and Hakone, Yokohama, and a hot-spring day",
         "image": "/assets/editorial/departure-tokyo-shibuya.jpg"
       }
     },
