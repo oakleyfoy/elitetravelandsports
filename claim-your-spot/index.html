@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-21DXZVX9J1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-21DXZVX9J1');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claim Your Spot | Elite Travel &amp; Sports Tours USA</title>
+    <meta
+      name="description"
+      content="Request your place on an Elite Travel &amp; Sports tennis experience. Our team will follow up with secure instructions for your initial non-refundable deposit."
+    />
+    <link rel="canonical" href="https://elitetravelsportsusa.com/claim-your-spot/" />
+    <meta property="og:title" content="Claim Your Spot | Elite Travel &amp; Sports Tours USA" />
+    <meta
+      property="og:description"
+      content="Request your place on an Elite Travel &amp; Sports tennis experience. Our team will follow up with secure deposit instructions."
+    />
+    <meta property="og:url" content="https://elitetravelsportsusa.com/claim-your-spot/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://elitetravelsportsusa.com/assets/destinations/destinations-hero-primary.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Claim Your Spot | Elite Travel &amp; Sports Tours USA" />
+    <meta
+      name="twitter:description"
+      content="Request your place on an Elite Travel &amp; Sports tennis experience."
+    />
+    <meta
+      name="twitter:image"
+      content="https://elitetravelsportsusa.com/assets/destinations/destinations-hero-primary.jpg"
+    />
+    <link rel="icon" href="/assets/elite-icon-transparent.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/assets/elite-icon-transparent.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.min.css"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preload" href="/assets/elite-icon-transparent.png" as="image" type="image/png" />
+  </head>
+  <body class="interior-page claim-spot-page" data-has-eligible-trips="{{HAS_ELIGIBLE_TRIPS}}">
+    <header class="site-header" data-header>
+      <a class="brand" href="/" aria-label="Elite Travel and Sports Tours USA home">
+        <img
+          class="brand-logo"
+          src="/assets/elite-icon-transparent.png"
+          alt=""
+          width="58"
+          height="58"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <span>
+          <strong>Elite Travel &amp; Sports Tours</strong>
+          <small>USA</small>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="primary-nav" data-nav>
+        <a href="/destinations/international/">Destinations</a>
+        <a href="/about/">About</a>
+        <a href="/team/">The Team</a>
+        <a href="/experiences/">Experiences</a>
+        <a href="/past-experiences/">Past Experiences</a>
+        <a class="header-cta" href="/plan-a-journey/">Plan a Journey</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="interior-hero">
+        <div class="interior-hero-inner">
+          <div>
+            <p class="eyebrow">Registration</p>
+            <h1>Claim Your Spot</h1>
+            <p>
+              Complete the form below to request your place on an Elite experience. Our team will follow up by email and
+              text with secure instructions for your initial non-refundable deposit.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="interior-section">
+        <div class="interior-section-inner">
+          <div class="inquiry-layout claim-spot-layout">
+            <form
+              class="inquiry-form claim-spot-form"
+              action="/api/submit-registration"
+              method="POST"
+              data-claim-registration
+              novalidate
+            >
+              <input
+                type="text"
+                class="inquiry-honeypot"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <input type="hidden" name="phone_e164" value="" data-phone-e164 />
+
+              <label class="form-field full claim-experience-field">
+                <span>Experience</span>
+                <select name="experience" required data-claim-experience>
+                  <option value="">Select an experience</option>
+                  {{EXPERIENCE_OPTIONS}}
+                </select>
+              </label>
+              <label class="form-field">
+                <span>Full Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="form-field">
+                <span>Email Address</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="form-field full claim-phone-field">
+                <span>Cell Phone Number</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  autocomplete="tel"
+                  inputmode="tel"
+                  required
+                  data-claim-phone
+                  aria-describedby="claim-phone-help"
+                />
+                <small id="claim-phone-help" class="form-help">
+                  Enter a cell number where we can text your deposit instructions.
+                </small>
+              </label>
+
+              <div class="sms-options">
+                <label class="sms-consent">
+                  <input type="checkbox" name="sms_registration_consent" value="Yes" required />
+                  <span class="sms-consent-copy">
+                    <strong>Text-message consent</strong>
+                    <span>
+                      I agree to receive texts from Elite Travel Sports about my registration request and deposit payment
+                      instructions.
+                    </span>
+                  </span>
+                </label>
+              </div>
+
+              <button class="button button-primary" type="submit">Submit Registration Request</button>
+              <p class="sms-disclosure">
+                Message and data rates may apply. Message frequency varies. Reply <strong>STOP</strong> to opt out.
+                Consent is not a condition of purchase. This request does not confirm your spot or collect a deposit.
+                <a href="/privacy-policy/">Privacy Policy</a> ·
+                <a href="/terms-and-conditions/#sms-terms">Terms &amp; Conditions</a>
+              </p>
+              <div class="inquiry-form-feedback" data-claim-feedback hidden tabindex="-1"></div>
+            </form>
+
+            <aside class="form-trust">
+              <strong>What happens next</strong>
+              <p>
+                Nora and the Elite team review each registration request personally. If space remains, they will send
+                secure instructions for your trip’s initial non-refundable deposit by email and text.
+              </p>
+              <p>
+                Deposit amounts differ by experience and are confirmed by the team—not collected on this website.
+              </p>
+              <p>
+                Prefer a broader planning conversation instead?
+                <a href="/plan-a-journey/">Plan a Journey</a>.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Elite Travel and Sports Tours USA</strong>
+        <p>
+          Curated tennis journeys abroad—composed logistics, bilingual ground support, and destinations read as richly
+          as they look.
+        </p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="/destinations/international/">Destinations</a>
+        <a href="/about/">About</a>
+        <a href="/team/">The Team</a>
+        <a href="/experiences/">Experiences</a>
+        <a href="/past-experiences/">Past Experiences</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="/plan-a-journey/">Plan a Journey</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-and-conditions/">Terms &amp; Conditions</a>
+        <a href="mailto:info@elitetravelsportsusa.com">info@elitetravelsportsusa.com</a>
+        <span>&copy; <span data-year></span> Elite Travel and Sports Tours USA</span>
+      </div>
+      <div class="footer-entity">
+        <p>
+          <strong>War Experiences LLC</strong> operates Elite Travel &amp; Sports Tours USA (Elite Travel Sports USA).
+        </p>
+      </div>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"
+      defer
+    ></script>
+    <script src="/claim-registration.js" defer></script>
+    <script src="/script.js" defer></script>
+  </body>
+</html>

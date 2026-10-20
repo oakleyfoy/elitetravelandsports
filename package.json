@@ -11,5 +11,8 @@
   "devDependencies": {
     "@playwright/test": "^1.50.0",
     "serve": "^14.2.4"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.13.15"
   }
 }
