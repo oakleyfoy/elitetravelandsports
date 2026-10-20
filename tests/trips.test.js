@@ -427,16 +427,25 @@ describe("rendered pages move trips automatically", () => {
     assert.doesNotMatch(html, /Photos and videos coming soon|past-cover-placeholder|\$|\.pdf/);
   });
 
-  test("Marrakech 2026 past trip appears before Greece despite an earlier end date", () => {
+  test("Greece 2026 appears before Marrakech 2026 by newer end date", () => {
     const past = pastTrips(trips, on("2026-10-15"));
-    assert.equal(past[0].slug, "morocco-marrakech-2026");
-    assert.equal(past[0].pastDisplayOrder, 1);
-    assert.equal(past[1].slug, "greece-crete-2026");
-    assert.equal(past[1].pastDisplayOrder, null);
+    assert.equal(past[0].slug, "greece-crete-2026");
+    assert.equal(past[0].title, "Greece Creta Tennis Experience");
+    assert.doesNotMatch(past[0].title, /&/);
+    assert.equal(past[0].endDate, "2026-10-14");
+    assert.equal(past[1].slug, "morocco-marrakech-2026");
+    assert.equal(past[1].endDate, "2026-02-07");
+    assert.equal(Object.prototype.hasOwnProperty.call(past[0], "pastDisplayOrder"), false);
     const list = renderListPage(past);
     assert.match(list, /Wish You Were Here\?/);
-    assert.match(list, /data-trip="morocco-marrakech-2026"[\s\S]*data-trip="greece-crete-2026"/);
-    assert.doesNotMatch(list, /data-trip="greece-crete-2026"[\s\S]*data-trip="morocco-marrakech-2026"/);
+    assert.match(list, /data-trip="greece-crete-2026"[\s\S]*data-trip="morocco-marrakech-2026"/);
+    assert.doesNotMatch(list, /data-trip="morocco-marrakech-2026"[\s\S]*data-trip="greece-crete-2026"/);
+    assert.match(list, /Greece Creta Tennis Experience/);
+    assert.doesNotMatch(list, /Greece Creta &amp; Tennis Experience/);
+    const detail = renderTripPage(past[0]);
+    assert.match(detail, /<title>Greece Creta Tennis Experience \|/);
+    assert.match(detail, /<h1>Greece Creta Tennis Experience<\/h1>/);
+    assert.doesNotMatch(detail, /Greece Creta &amp; Tennis Experience/);
   });
 
   test("Marrakech 2026 gallery shows photos without inventing an itinerary", () => {
@@ -458,16 +467,53 @@ describe("rendered pages move trips automatically", () => {
     assert.match(html.past, /morocco-marrakech-2026/);
   });
 
-  test("pastDisplayOrder pins listed trips; others stay newest first", () => {
+  test("past trips sort by end date newest first and ignore pastDisplayOrder overrides", () => {
     const ordered = load([
-      trip({ slug: "older", title: "Older", startDate: "2025-01-01", endDate: "2025-01-08", pastDisplayOrder: 2 }),
+      trip({ slug: "older", title: "Older", startDate: "2025-01-01", endDate: "2025-01-08", pastDisplayOrder: 1 }),
       trip({ slug: "newer", title: "Newer", startDate: "2026-06-01", endDate: "2026-06-08" }),
-      trip({ slug: "pinned", title: "Pinned", startDate: "2024-01-01", endDate: "2024-01-08", pastDisplayOrder: 1 }),
+      trip({ slug: "stale-pin", title: "Stale Pin", startDate: "2024-01-01", endDate: "2024-01-08", pastDisplayOrder: 1 }),
       trip({ slug: "mid", title: "Mid", startDate: "2025-06-01", endDate: "2025-06-08" }),
     ]);
     assert.deepEqual(
       pastTrips(ordered, on("2027-01-01")).map((item) => item.slug),
-      ["pinned", "older", "newer", "mid"],
+      ["newer", "mid", "older", "stale-pin"],
+    );
+    assert.equal(Object.prototype.hasOwnProperty.call(ordered[0], "pastDisplayOrder"), false);
+  });
+
+  test("identical end dates use later startDate then slug as secondary sort", () => {
+    const tied = load([
+      trip({ slug: "zeta", title: "Zeta", startDate: "2026-05-01", endDate: "2026-05-10" }),
+      trip({ slug: "alpha", title: "Alpha", startDate: "2026-05-01", endDate: "2026-05-10" }),
+      trip({ slug: "later-start", title: "Later Start", startDate: "2026-05-03", endDate: "2026-05-10" }),
+      trip({ slug: "newer-end", title: "Newer End", startDate: "2026-06-01", endDate: "2026-06-08" }),
+    ]);
+    assert.deepEqual(
+      pastTrips(tied, on("2027-01-01")).map((item) => item.slug),
+      ["newer-end", "later-start", "alpha", "zeta"],
+    );
+  });
+
+  test("trips move into Past Experiences automatically after their end date across years", () => {
+    const slate = load([
+      trip({ slug: "dec-2026", title: "Dec 2026", startDate: "2026-12-20", endDate: "2026-12-27" }),
+      trip({ slug: "jan-2027", title: "Jan 2027", startDate: "2027-01-05", endDate: "2027-01-12" }),
+      trip({
+        slug: "cancelled-old",
+        title: "Cancelled",
+        startDate: "2025-01-01",
+        endDate: "2025-01-08",
+        status: "cancelled",
+      }),
+    ]);
+
+    assert.deepEqual(pastTrips(slate, on("2026-12-27")).map((item) => item.slug), []);
+    assert.deepEqual(pastTrips(slate, on("2026-12-28")).map((item) => item.slug), ["dec-2026"]);
+    assert.deepEqual(pastTrips(slate, on("2027-01-12")).map((item) => item.slug), ["dec-2026"]);
+    assert.deepEqual(pastTrips(slate, on("2027-01-13")).map((item) => item.slug), ["jan-2027", "dec-2026"]);
+    assert.doesNotMatch(
+      pastTrips(slate, on("2028-01-01")).map((item) => item.slug).join(","),
+      /cancelled-old/,
     );
   });
 
