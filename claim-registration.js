@@ -109,6 +109,20 @@
     var nameInput = form.querySelector('[name="name"]');
     var emailInput = form.querySelector('[name="email"]');
     var consent = form.querySelector('[name="sms_registration_consent"]');
+    var tennisRating = form.querySelector('[name="tennis_rating"]');
+    var travelingAlone = form.querySelector('[name="traveling_alone"]');
+    var allergies = form.querySelector('[name="allergies_dietary"]');
+    var anythingElse = form.querySelector('[name="anything_else"]');
+
+    if (!experienceSelect || !experienceSelect.value) {
+      ok = false;
+      markInvalid(experienceSelect && experienceSelect.closest(".form-field"));
+    }
+
+    if (!tennisRating || !tennisRating.value) {
+      ok = false;
+      markInvalid(tennisRating && tennisRating.closest(".form-field"));
+    }
 
     var nameVal = nameInput ? nameInput.value.trim() : "";
     if (!nameVal || nameVal.length < 2 || !/\S/.test(nameVal)) {
@@ -135,21 +149,31 @@
       phoneE164.value = e164;
     }
 
-    if (!experienceSelect || !experienceSelect.value) {
-      ok = false;
-      markInvalid(experienceSelect && experienceSelect.closest(".form-field"));
-    }
-
     if (!consent || !consent.checked) {
       ok = false;
       markInvalid(consent && consent.closest(".sms-consent"));
+    }
+
+    if (!travelingAlone || !travelingAlone.value) {
+      ok = false;
+      markInvalid(travelingAlone && travelingAlone.closest(".form-field"));
+    }
+
+    if (allergies && allergies.value.trim().length > 500) {
+      ok = false;
+      markInvalid(allergies.closest(".form-field"));
+    }
+
+    if (anythingElse && anythingElse.value.trim().length > 2000) {
+      ok = false;
+      markInvalid(anythingElse.closest(".form-field"));
     }
 
     if (!ok) {
       showFeedback(
         "error",
         "Please complete the highlighted fields.",
-        "Full name, a valid email address, a cell phone number, experience selection, and text-message consent are required.",
+        "Experience, tennis rating, full name, a valid email address, a cell phone number, text-message consent, and traveling alone are required.",
       );
     }
     return ok;

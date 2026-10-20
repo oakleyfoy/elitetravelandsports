@@ -118,13 +118,24 @@
                   {{EXPERIENCE_OPTIONS}}
                 </select>
               </label>
+              <label class="form-field full claim-tennis-rating-field">
+                <span>Tennis Rating</span>
+                <select name="tennis_rating" required data-claim-tennis-rating>
+                  <option value="">Select a tennis rating</option>
+                  <option value="2.5">2.5</option>
+                  <option value="3.0">3.0</option>
+                  <option value="3.5">3.5</option>
+                  <option value="4.0">4.0</option>
+                  <option value="4.5+">4.5+</option>
+                </select>
+              </label>
               <label class="form-field">
                 <span>Full Name</span>
-                <input type="text" name="name" autocomplete="name" required />
+                <input type="text" name="name" autocomplete="name" maxlength="120" required />
               </label>
               <label class="form-field">
                 <span>Email Address</span>
-                <input type="email" name="email" autocomplete="email" required />
+                <input type="email" name="email" autocomplete="email" maxlength="254" required />
               </label>
               <label class="form-field full claim-phone-field">
                 <span>Cell Phone Number</span>
@@ -154,6 +165,38 @@
                   </span>
                 </label>
               </div>
+
+              <label class="form-field full claim-traveling-alone-field">
+                <span>Traveling Alone?</span>
+                <select name="traveling_alone" required data-claim-traveling-alone>
+                  <option value="">Select an option</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </label>
+              <label class="form-field full claim-allergies-field">
+                <span>Allergies or Dietary Restrictions</span>
+                <input
+                  type="text"
+                  name="allergies_dietary"
+                  maxlength="500"
+                  autocomplete="off"
+                  placeholder="Example: Gluten-free, nut allergy, vegetarian, or none."
+                  aria-describedby="claim-allergies-help"
+                />
+                <small id="claim-allergies-help" class="form-help">
+                  Optional. Share only what you choose for trip planning—not a detailed medical history.
+                </small>
+              </label>
+              <label class="form-field full claim-anything-else-field">
+                <span>Anything Else We Should Know?</span>
+                <textarea
+                  name="anything_else"
+                  rows="4"
+                  maxlength="2000"
+                  placeholder="Example: I'm traveling with a group of 5, I'd like to room with a friend, or I have a question about accommodations."
+                ></textarea>
+              </label>
 
               <!-- Honeypot after real fields so browsers do not treat it as the first autofill target. -->
               <input

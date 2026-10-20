@@ -6,12 +6,19 @@ const os = require("node:os");
 const path = require("node:path");
 
 const {
+  ALLERGIES_MAX_LENGTH,
+  ANYTHING_ELSE_MAX_LENGTH,
   eligibleTrips,
   findEligibleTrip,
   isValidEmail,
   isValidPersonName,
   normalizeCellPhone,
+  normalizeOptionalRegistrationText,
+  normalizeTennisRating,
+  normalizeTravelingAlone,
+  optionalFieldDisplay,
   renderClaimPage,
+  TENNIS_RATINGS,
 } = require("../lib/registration");
 const { loadTrips, upcomingTrips, isBookable } = require("../lib/trips");
 const { renderPage } = require("../lib/upcoming");
@@ -87,6 +94,21 @@ async function postRegistration(base, body) {
   return { response, data };
 }
 
+function validRegistration(overrides = {}) {
+  return {
+    name: "Ada Lovelace",
+    email: "ada@example.com",
+    phone_e164: "+12015550123",
+    experience: "spain-marbella-2027",
+    tennis_rating: "3.5",
+    traveling_alone: "Yes",
+    sms_registration_consent: "Yes",
+    allergies_dietary: "",
+    anything_else: "",
+    ...overrides,
+  };
+}
+
 describe("registration helpers", () => {
   test("rejects empty and whitespace-only names", () => {
     assert.equal(isValidPersonName(""), false);
@@ -113,6 +135,38 @@ describe("registration helpers", () => {
 
     const bad = normalizeCellPhone("123");
     assert.equal(bad.ok, false);
+  });
+
+  test("accepts only the permitted tennis rating and traveling-alone values", () => {
+    for (const rating of TENNIS_RATINGS) {
+      assert.equal(normalizeTennisRating(rating).ok, true);
+    }
+    assert.equal(normalizeTennisRating("").ok, false);
+    assert.equal(normalizeTennisRating("5.0").ok, false);
+    assert.equal(normalizeTennisRating("3").ok, false);
+    assert.equal(normalizeTravelingAlone("Yes").ok, true);
+    assert.equal(normalizeTravelingAlone("No").ok, true);
+    assert.equal(normalizeTravelingAlone("Maybe").ok, false);
+    assert.equal(normalizeTravelingAlone("").ok, false);
+  });
+
+  test("optional registration text enforces length limits and Not provided display", () => {
+    assert.equal(optionalFieldDisplay(""), "Not provided");
+    assert.equal(optionalFieldDisplay("  Nut allergy  "), "Nut allergy");
+    assert.equal(
+      normalizeOptionalRegistrationText("x".repeat(ALLERGIES_MAX_LENGTH + 1), {
+        maxLength: ALLERGIES_MAX_LENGTH,
+        label: "Allergies or dietary restrictions",
+      }).ok,
+      false,
+    );
+    assert.equal(
+      normalizeOptionalRegistrationText("x".repeat(ANYTHING_ELSE_MAX_LENGTH), {
+        maxLength: ANYTHING_ELSE_MAX_LENGTH,
+        label: "Anything else we should know",
+      }).ok,
+      true,
+    );
   });
 
   test("only bookable upcoming trips are registration-eligible", () => {
@@ -209,12 +263,25 @@ describe("claim page rendering", () => {
       html,
       /Complete the form below to request your place on an Elite experience\.\s*Our team will follow up by email and\s*text with secure instructions for your initial non-refundable deposit\./,
     );
+    assert.match(html, /name="experience"/);
+    assert.match(html, /name="tennis_rating"/);
+    assert.match(html, /<option value="">Select a tennis rating<\/option>/);
+    assert.match(html, /option value="2\.5"/);
+    assert.match(html, /option value="4\.5\+"/);
+    assert.doesNotMatch(html, /name="tennis_rating"[\s\S]*selected/);
     assert.match(html, /name="name"/);
     assert.match(html, /name="email"/);
     assert.match(html, /name="phone"/);
-    assert.match(html, /name="experience"/);
     assert.match(html, /name="sms_registration_consent" value="Yes" required/);
     assert.doesNotMatch(html, /sms_registration_consent"[^>]*checked/);
+    assert.match(html, /name="traveling_alone"/);
+    assert.match(html, /<option value="">Select an option<\/option>/);
+    assert.doesNotMatch(html, /name="traveling_alone"[\s\S]*selected/);
+    assert.match(html, /name="allergies_dietary"/);
+    assert.match(html, /Example: Gluten-free, nut allergy, vegetarian, or none\./);
+    assert.match(html, /name="anything_else"/);
+    assert.match(html, /Anything Else We Should Know\?/);
+    assert.doesNotMatch(html, /Additional Notes|name="notes"/);
     assert.match(html, /Enter a cell number where we can text your deposit instructions\./);
     assert.match(
       html,
@@ -262,12 +329,24 @@ describe("registration API", () => {
 
   test("rejects invalid registration payloads before emailing", async () => {
     const cases = [
-      { body: { name: "  ", email: "a@b.com", phone_e164: "+14155552671", experience: "spain-marbella-2027", sms_registration_consent: "Yes" }, expect: /full name/i },
-      { body: { name: "Ada", email: "not-email", phone_e164: "+14155552671", experience: "spain-marbella-2027", sms_registration_consent: "Yes" }, expect: /email/i },
-      { body: { name: "Ada", email: "a@b.com", phone_e164: "123", experience: "spain-marbella-2027", sms_registration_consent: "Yes" }, expect: /cell phone|phone/i },
-      { body: { name: "Ada", email: "a@b.com", phone_e164: "+14155552671", experience: "spain-marbella-2027", sms_registration_consent: "No" }, expect: /text messages/i },
-      { body: { name: "Ada", email: "a@b.com", phone_e164: "+14155552671", experience: "forged-trip", sms_registration_consent: "Yes" }, expect: /experience/i },
-      { body: { name: "Ada", email: "a@b.com", phone_e164: "+14155552671", experience: "morocco-marrakech-2026", sms_registration_consent: "Yes" }, expect: /experience/i },
+      { body: validRegistration({ name: "  " }), expect: /full name/i },
+      { body: validRegistration({ email: "not-email" }), expect: /email/i },
+      { body: validRegistration({ phone_e164: "123" }), expect: /cell phone|phone/i },
+      { body: validRegistration({ sms_registration_consent: "No" }), expect: /text messages/i },
+      { body: validRegistration({ experience: "forged-trip" }), expect: /experience/i },
+      { body: validRegistration({ experience: "morocco-marrakech-2026" }), expect: /experience/i },
+      { body: validRegistration({ tennis_rating: "" }), expect: /tennis rating/i },
+      { body: validRegistration({ tennis_rating: "5.0" }), expect: /tennis rating/i },
+      { body: validRegistration({ traveling_alone: "" }), expect: /traveling alone/i },
+      { body: validRegistration({ traveling_alone: "Maybe" }), expect: /traveling alone/i },
+      {
+        body: validRegistration({ allergies_dietary: "x".repeat(ALLERGIES_MAX_LENGTH + 1) }),
+        expect: /allergies or dietary/i,
+      },
+      {
+        body: validRegistration({ anything_else: "y".repeat(ANYTHING_ELSE_MAX_LENGTH + 1) }),
+        expect: /anything else/i,
+      },
     ];
 
     for (const item of cases) {
@@ -280,12 +359,8 @@ describe("registration API", () => {
 
   test("honeypot submissions are discarded without a registration-success response", async () => {
     const { response, data } = await postRegistration(base, {
+      ...validRegistration({ name: "Ada", email: "a@b.com", phone_e164: "+14155552671" }),
       _gotcha: "bot",
-      name: "Ada",
-      email: "a@b.com",
-      phone_e164: "+14155552671",
-      experience: "spain-marbella-2027",
-      sms_registration_consent: "Yes",
     });
     assert.equal(response.status, 200);
     assert.equal(data.ok, false);
@@ -321,11 +396,7 @@ describe("registration API", () => {
 
   test("missing reCAPTCHA returns a friendly visitor message and keeps the secret name in logs only", async () => {
     const { response, data } = await postRegistration(base, {
-      name: "Ada Lovelace",
-      email: "ada@example.com",
-      phone_e164: "+12015550123",
-      experience: "spain-marbella-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration(),
       recaptcha_token: "anything",
     });
     assert.equal(response.status, 400);
@@ -376,11 +447,10 @@ describe("registration safe-test submission", () => {
 
   test("accepts a registration through the shared inquiry inbox path without live Graph delivery", async () => {
     const { response, data } = await postRegistration(base, {
-      name: "Ada Lovelace",
-      email: "ada@example.com",
-      phone_e164: "+12015550123",
-      experience: "spain-marbella-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration({
+        allergies_dietary: "Gluten-free",
+        anything_else: "Traveling with a friend",
+      }),
       recaptcha_token: "elite-test-token",
     });
     assert.equal(response.status, 200);
@@ -397,25 +467,50 @@ describe("registration safe-test submission", () => {
     assert.match(mail.html, /Cell Phone Number[\s\S]*\+12015550123/);
     assert.match(mail.html, /Experience[\s\S]*Marbella Spain &amp; Tennis Experience/);
     assert.match(mail.html, /Trip Date[\s\S]*January 27/);
+    assert.match(mail.html, /Tennis Rating[\s\S]*3\.5/);
+    assert.match(mail.html, /Traveling Alone\?[\s\S]*Yes/);
+    assert.match(mail.html, /Allergies or Dietary Restrictions[\s\S]*Gluten-free/);
+    assert.match(mail.html, /Anything Else We Should Know\?[\s\S]*Traveling with a friend/);
     assert.match(mail.html, /Submission Date/);
     assert.match(mail.html, /SMS Consent[\s\S]*Yes/);
     assert.doesNotMatch(mail.html, /deposit amount|payment link|stripe/i);
     assert.match(server.logs(), /microsoft-mail safe-test sink/);
     assert.match(server.logs(), /submit-registration accepted/);
     assert.match(server.logs(), /experience:\s*'spain-marbella-2027'/);
-    assert.doesNotMatch(server.logs(), /phoneE164|Ada Lovelace|ada@example\.com|\+12015550123/);
+    assert.doesNotMatch(server.logs(), /phoneE164|Ada Lovelace|ada@example\.com|\+12015550123|Gluten-free|Traveling with a friend/);
+  });
+
+  test("optional blank fields appear as Not provided and allergy text is never logged", async () => {
+    fs.writeFileSync(sink, "");
+    const logsBefore = server.logs();
+    const { response, data } = await postRegistration(base, {
+      ...validRegistration({
+        tennis_rating: "4.5+",
+        traveling_alone: "No",
+        allergies_dietary: "",
+        anything_else: "",
+      }),
+      recaptcha_token: "elite-mock-recaptcha-pass",
+    });
+    const logsDelta = server.logs().slice(logsBefore.length);
+    assert.equal(response.status, 200);
+    assert.equal(data.ok, true);
+    const mail = JSON.parse(fs.readFileSync(sink, "utf8").trim().split("\n").pop());
+    assert.match(mail.html, /Tennis Rating[\s\S]*4\.5\+/);
+    assert.match(mail.html, /Traveling Alone\?[\s\S]*No/);
+    assert.match(mail.html, /Allergies or Dietary Restrictions[\s\S]*Not provided/);
+    assert.match(mail.html, /Anything Else We Should Know\?[\s\S]*Not provided/);
+    assert.match(logsDelta, /tennisRating:\s*'4\.5\+'/);
+    assert.match(logsDelta, /travelingAlone:\s*'No'/);
+    assert.doesNotMatch(logsDelta, /allergies|dietary|Gluten|nut allergy/i);
   });
 
   test("honeypot discard never writes mail and never returns ok true", async () => {
     fs.writeFileSync(sink, "");
     const logsBefore = server.logs();
     const { response, data } = await postRegistration(base, {
+      ...validRegistration(),
       _gotcha: "autofill-or-bot",
-      name: "Ada Lovelace",
-      email: "ada@example.com",
-      phone_e164: "+12015550123",
-      experience: "spain-marbella-2027",
-      sms_registration_consent: "Yes",
       recaptcha_token: "elite-mock-recaptcha-pass",
     });
     const logsDelta = server.logs().slice(logsBefore.length);
@@ -429,11 +524,11 @@ describe("registration safe-test submission", () => {
   test("mocked Google siteverify pass + Graph sink show success without live network calls", async () => {
     fs.writeFileSync(sink, "");
     const { response, data } = await postRegistration(base, {
-      name: "Nora Test",
-      email: "nora.test@example.com",
-      phone_e164: "+12015550123",
-      experience: "japan-tokyo-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration({
+        name: "Nora Test",
+        email: "nora.test@example.com",
+        experience: "japan-tokyo-2027",
+      }),
       recaptcha_token: "elite-mock-recaptcha-pass",
     });
     assert.equal(response.status, 200);
@@ -450,11 +545,11 @@ describe("registration safe-test submission", () => {
   test("mocked Google siteverify failure returns a spam-protection error without success", async () => {
     const before = fs.existsSync(sink) ? fs.readFileSync(sink, "utf8") : "";
     const { response, data } = await postRegistration(base, {
-      name: "Nora Test",
-      email: "nora.test@example.com",
-      phone_e164: "+12015550123",
-      experience: "japan-tokyo-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration({
+        name: "Nora Test",
+        email: "nora.test@example.com",
+        experience: "japan-tokyo-2027",
+      }),
       recaptcha_token: "elite-mock-recaptcha-fail",
     });
     assert.equal(response.status, 400);
@@ -466,22 +561,23 @@ describe("registration safe-test submission", () => {
   test("rejects invalid experience and missing consent without sending mail", async () => {
     const before = fs.readFileSync(sink, "utf8");
     const forged = await postRegistration(base, {
-      name: "Nora Test",
-      email: "nora.test@example.com",
-      phone_e164: "+12015550123",
-      experience: "not-a-real-trip",
-      sms_registration_consent: "Yes",
+      ...validRegistration({
+        name: "Nora Test",
+        email: "nora.test@example.com",
+        experience: "not-a-real-trip",
+      }),
       recaptcha_token: "elite-mock-recaptcha-pass",
     });
     assert.equal(forged.response.status, 400);
     assert.match(String(forged.data && forged.data.error), /experience/i);
 
     const noConsent = await postRegistration(base, {
-      name: "Nora Test",
-      email: "nora.test@example.com",
-      phone_e164: "+12015550123",
-      experience: "japan-tokyo-2027",
-      sms_registration_consent: "No",
+      ...validRegistration({
+        name: "Nora Test",
+        email: "nora.test@example.com",
+        experience: "japan-tokyo-2027",
+        sms_registration_consent: "No",
+      }),
       recaptcha_token: "elite-mock-recaptcha-pass",
     });
     assert.equal(noConsent.response.status, 400);
@@ -492,11 +588,11 @@ describe("registration safe-test submission", () => {
   test("duplicate successful posts both reach the inquiry inbox sink (server accepts; client locks after first success)", async () => {
     fs.writeFileSync(sink, "");
     const body = {
-      name: "Duplicate Guest",
-      email: "dup@example.com",
-      phone_e164: "+12015550123",
-      experience: "portugal-algarve-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration({
+        name: "Duplicate Guest",
+        email: "dup@example.com",
+        experience: "portugal-algarve-2027",
+      }),
       recaptcha_token: "elite-mock-recaptcha-pass",
     };
     const first = await postRegistration(base, body);
@@ -594,11 +690,7 @@ describe("registration Graph failure never reports success", () => {
 
   test("returns unavailable error and does not set ok when Graph send fails", async () => {
     const { response, data } = await postRegistration(server.base, {
-      name: "Ada Lovelace",
-      email: "ada@example.com",
-      phone_e164: "+12015550123",
-      experience: "spain-marbella-2027",
-      sms_registration_consent: "Yes",
+      ...validRegistration(),
       recaptcha_token: "elite-mock-recaptcha-pass",
     });
     assert.equal(response.status, 500);
