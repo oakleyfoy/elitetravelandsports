@@ -4071,7 +4071,9 @@ h3 {
   flex-direction: column;
   gap: 12px;
   padding: clamp(22px, 3vw, 28px);
+  min-width: 0;
   min-height: 100%;
+  overflow: hidden;
   background:
     radial-gradient(circle at 14% 0%, rgba(201, 161, 91, 0.12), transparent 46%),
     rgba(255, 250, 242, 0.045);
@@ -4367,6 +4369,75 @@ h3 {
   background: var(--gold);
   border-color: var(--gold);
   transform: translateY(-1px);
+}
+
+.destinations-page .fixed-date-trip-card-top,
+.destinations-page .morocco-brochure-card .fixed-date-trip-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.destinations-page .fixed-date-trip-card-top .fixed-date-trip-kicker,
+.destinations-page .morocco-brochure-card .fixed-date-trip-card-top .fixed-date-trip-kicker {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+}
+
+.destinations-page .claim-spot-button {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 26px;
+  padding: 3px 8px;
+  color: var(--deep);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  background: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.destinations-page .claim-spot-button:hover,
+.destinations-page .claim-spot-button:focus-visible {
+  color: var(--white);
+  background: transparent;
+  border-color: rgba(201, 161, 91, 0.72);
+  transform: translateY(-1px);
+}
+
+.destinations-page .claim-spot-button--itinerary {
+  justify-self: start;
+  min-height: 34px;
+  margin-top: 4px;
+  padding: 0 12px;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+}
+
+.destinations-page .morocco-itinerary .claim-spot-button--itinerary {
+  display: inline-flex;
 }
 
 .destinations-page .morocco-yearround-actions {
@@ -5093,6 +5164,179 @@ form.inquiry-form .inquiry-honeypot {
   cursor: wait;
 }
 
+.claim-spot-page .inquiry-form,
+.claim-spot-page .form-trust {
+  background: rgba(255, 250, 242, 0.04);
+}
+
+.claim-spot-page .form-help {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 250, 242, 0.58);
+  font-size: 0.78rem;
+  font-weight: 450;
+  letter-spacing: 0;
+  line-height: 1.55;
+  text-transform: none;
+}
+
+.claim-spot-page .claim-phone-field .iti {
+  width: 100%;
+}
+
+.claim-spot-page .claim-phone-field .iti__tel-input {
+  width: 100%;
+  padding-left: 52px !important;
+}
+
+.claim-spot-page .claim-experience-field {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.claim-spot-page .claim-experience-field select {
+  width: 100%;
+  max-width: 100%;
+  min-height: 52px;
+  height: auto;
+  padding: 12px 42px 12px 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.35;
+  font-size: 0.92rem;
+}
+
+.claim-spot-page .claim-phone-field {
+  grid-column: 1 / -1;
+}
+
+.claim-spot-page .claim-spot-form .sms-options {
+  gap: 0;
+}
+
+.claim-spot-page .claim-spot-form .sms-consent {
+  column-gap: 10px;
+  row-gap: 2px;
+  padding: 10px 12px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.claim-spot-page .claim-spot-form .sms-consent input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin-top: 2px;
+}
+
+.claim-spot-page .claim-spot-form .sms-consent-copy strong {
+  font-size: 0.84rem;
+  line-height: 1.2;
+}
+
+.claim-spot-page .claim-spot-form .sms-consent-copy span {
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.claim-spot-page .claim-spot-form .sms-disclosure {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.claim-spot-page .claim-spot-form .sms-disclosure strong {
+  font-weight: 700;
+}
+
+.claim-spot-page .claim-spot-form .button {
+  margin-top: 2px;
+}
+
+.claim-spot-page .inquiry-form-feedback {
+  grid-column: 1 / -1;
+  padding: clamp(22px, 3.5vw, 30px) clamp(20px, 3vw, 28px);
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.claim-spot-page .inquiry-form-feedback[hidden] {
+  display: none;
+}
+
+.claim-spot-page .inquiry-form-feedback--success {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(189, 149, 86, 0.14), transparent 13rem),
+    rgba(255, 250, 242, 0.07);
+  border: 1px solid rgba(189, 149, 86, 0.42);
+  box-shadow:
+    0 0 0 1px rgba(255, 250, 242, 0.06),
+    0 18px 48px rgba(0, 0, 0, 0.12);
+}
+
+.claim-spot-page .inquiry-form-feedback--success strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--white);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.42rem, 2.35vw, 1.92rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.claim-spot-page .inquiry-form-feedback--success p {
+  margin: 0;
+  max-width: 52ch;
+  color: rgba(255, 250, 242, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.72;
+}
+
+.claim-spot-page .inquiry-form-feedback--error {
+  background: rgba(38, 12, 8, 0.35);
+  border: 1px solid rgba(214, 120, 90, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(255, 250, 242, 0.06),
+    0 14px 40px rgba(0, 0, 0, 0.2);
+}
+
+.claim-spot-page .inquiry-form-feedback--error strong {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 240, 232, 0.98);
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.claim-spot-page .inquiry-form-feedback--error p {
+  margin: 0;
+  color: rgba(255, 250, 242, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.68;
+}
+
+.claim-spot-page .inquiry-form .form-field.is-invalid input,
+.claim-spot-page .inquiry-form .form-field.is-invalid select,
+.claim-spot-page .inquiry-form .form-field.is-invalid textarea,
+.claim-spot-page .inquiry-form .sms-consent.is-invalid {
+  border-color: rgba(214, 120, 90, 0.65);
+  box-shadow:
+    0 0 0 3px rgba(214, 120, 90, 0.12),
+    0 0 0 1px rgba(255, 250, 242, 0.08);
+}
+
+.claim-spot-page .inquiry-form [type="submit"]:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
 .plan-page .interior-cta {
   padding: 56px 0 72px;
 }
@@ -5456,6 +5700,26 @@ form.inquiry-form .inquiry-honeypot {
 }
 
 @media (max-width: 720px) {
+  .destinations-page .fixed-date-trip-card-top,
+  .destinations-page .morocco-brochure-card .fixed-date-trip-card-top {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+  }
+
+  .destinations-page .claim-spot-button {
+    flex: 0 0 auto;
+    min-height: 28px;
+    padding: 4px 9px;
+    font-size: 0.54rem;
+    letter-spacing: 0.07em;
+  }
+
+  .claim-spot-page .claim-experience-field select {
+    min-height: 60px;
+    font-size: 0.92rem;
+  }
+
   .interior-hero {
     min-height: auto;
   }

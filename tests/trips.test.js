@@ -369,6 +369,7 @@ describe("rendered pages move trips automatically", () => {
     const card = html["/destinations/international/"].match(/<article[^>]*data-trip="spain-marbella-2027"[\s\S]*?<\/article>/)[0];
     assert.match(card, /Departure in progress/);
     assert.match(card, /Day 1: Arrival &amp; Welcome Dinner/);
+    assert.doesNotMatch(card, /Claim Your Spot/);
     assert.doesNotMatch(html.past, /spain-marbella-2027/);
   });
 
@@ -578,11 +579,12 @@ describe("server", () => {
   });
 
   test("existing static pages and the inquiry API still respond", async () => {
-    for (const page of ["/about/", "/plan-a-journey/", "/styles.css", "/script.js", "/morocco-programs.js"]) {
+    for (const page of ["/about/", "/plan-a-journey/", "/styles.css", "/script.js", "/morocco-programs.js", "/claim-registration.js"]) {
       assert.equal((await fetch(base + page)).status, 200, page);
     }
     assert.equal((await fetch(`${base}/api/public-config`)).status, 200);
     assert.equal((await fetch(`${base}/api/submit-inquiry`, { method: "GET" })).status, 405);
+    assert.equal((await fetch(`${base}/api/submit-registration`, { method: "GET" })).status, 405);
   });
 });
 
@@ -591,6 +593,13 @@ describe("server with malformed trip data", () => {
   for (const entry of ["server.js", "lib", "index.html", "destinations", "past-experiences", "about", "sitemap.xml", "styles.css"]) {
     fs.cpSync(path.join(ROOT_DIR, entry), path.join(siteCopy, entry), { recursive: true });
   }
+  // registration.js depends on libphonenumber-js; keep the temp site bootable without a full install.
+  fs.mkdirSync(path.join(siteCopy, "node_modules"), { recursive: true });
+  fs.cpSync(
+    path.join(ROOT_DIR, "node_modules", "libphonenumber-js"),
+    path.join(siteCopy, "node_modules", "libphonenumber-js"),
+    { recursive: true },
+  );
   fs.mkdirSync(path.join(siteCopy, "data"));
   fs.writeFileSync(path.join(siteCopy, "data", "trips.json"), '{ "trips": [ { "slug": "oops", } ] }');
   const server = startServer(siteCopy);
