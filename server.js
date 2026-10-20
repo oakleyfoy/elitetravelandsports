@@ -109,6 +109,15 @@ function cleanValue(value) {
   return value.trim();
 }
 
+/**
+ * Honeypot discard: keep server-side bot filtering, but never mimic a Graph-accepted success.
+ * Response is intentionally generic (no public detection details). Clients must require data.ok.
+ */
+function sendHoneypotDiscard(res, formKind) {
+  console.log(`${formKind} discarded`, { reason: "honeypot" });
+  return sendJson(res, 200, { ok: false });
+}
+
 function escapeHtml(value) {
   return value
     .replace(/&/g, "&amp;")
@@ -509,7 +518,7 @@ async function handleInquiry(req, res) {
   }
 
   if (cleanValue(payload._gotcha)) {
-    return sendJson(res, 200, { ok: true });
+    return sendHoneypotDiscard(res, "submit-inquiry");
   }
 
   const name = cleanValue(payload.name);
@@ -519,7 +528,11 @@ async function handleInquiry(req, res) {
   }
 
   const microsoftConfig = getMicrosoftConfig();
-  console.log("submit-inquiry received", getSubmissionDiagnostics(payload));
+  const inquiryDiagnostics = getSubmissionDiagnostics(payload);
+  console.log("submit-inquiry received", {
+    page: inquiryDiagnostics.page || "Plan a Journey",
+    hasProgram: Boolean(inquiryDiagnostics.program),
+  });
   console.log("submit-inquiry mail config", {
     MAIL_FROM_EMAIL: process.env.MAIL_FROM_EMAIL || DEFAULT_FROM_EMAIL,
     INQUIRY_TO_EMAIL: process.env.INQUIRY_TO_EMAIL || DEFAULT_TO_EMAIL,
@@ -575,6 +588,11 @@ async function handleInquiry(req, res) {
       console.error(getSafeErrorDetails(error));
     }
 
+    console.log("submit-inquiry accepted", {
+      page: inquiryDiagnostics.page || "Plan a Journey",
+      hasProgram: Boolean(inquiryDiagnostics.program),
+      channel: "microsoft-graph",
+    });
     return sendJson(res, 200, { ok: true });
   } catch (error) {
     console.error("submit-inquiry email send failed");
@@ -605,9 +623,9 @@ async function handleRegistration(req, res) {
     return sendJson(res, 400, { error: "Invalid request." });
   }
 
-  // Honeypot: pretend success without emailing.
+  // Honeypot: discard without Graph and without a normal registration-success payload.
   if (cleanValue(payload._gotcha)) {
-    return sendJson(res, 200, { ok: true });
+    return sendHoneypotDiscard(res, "submit-registration");
   }
 
   const name = cleanValue(payload.name);
@@ -655,12 +673,10 @@ async function handleRegistration(req, res) {
   }
 
   const microsoftConfig = getMicrosoftConfig();
+  // Non-PII only: never log names, emails, phones, tokens, or form content.
   console.log("submit-registration received", {
-    name,
-    email,
     experience: trip.slug,
-    phoneE164: phoneResult.e164,
-    smsConsent: smsConsent ? "Yes" : "No",
+    hasSmsConsent: true,
   });
   console.log("submit-registration mail config", {
     MAIL_FROM_EMAIL: process.env.MAIL_FROM_EMAIL || DEFAULT_FROM_EMAIL,
@@ -719,6 +735,10 @@ async function handleRegistration(req, res) {
     });
 
     // Confirmation shown only after Graph (or safe-test sink) accepts. No automatic deposit link is emailed.
+    console.log("submit-registration accepted", {
+      experience: trip.slug,
+      channel: "microsoft-graph",
+    });
     return sendJson(res, 200, { ok: true });
   } catch (error) {
     console.error("submit-registration email send failed");

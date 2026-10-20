@@ -236,12 +236,18 @@
 
     setBusy(true);
     try {
+      // Clear browser autofill residue from the honeypot before serialize.
+      // Raw API posts that still send a filled _gotcha are discarded server-side (not erased).
+      var honeypot = form.querySelector("[data-honeypot], [name='_gotcha']");
+      if (honeypot) honeypot.value = "";
+
       var formData = new FormData(form);
       var payload = Object.fromEntries(formData.entries());
       payload.sms_registration_consent = form.querySelector('[name="sms_registration_consent"]').checked
         ? "Yes"
         : "No";
       payload.phone_e164 = syncPhoneE164() || payload.phone_e164 || "";
+      payload._gotcha = "";
 
       // Same /api/public-config + RECAPTCHA_SITE_KEY path as Plan a Journey.
       var recaptchaConfig = await getRecaptchaConfig();
@@ -268,7 +274,9 @@
         /* non-JSON */
       }
 
-      if (res.ok && data && data.ok) {
+      // Success confirmation only after validation + reCAPTCHA + Graph accept (data.ok).
+      // Honeypot discard returns { ok: false } and must never show Registration received.
+      if (res.ok && data && data.ok === true) {
         submittedOnce = true;
         showFeedback("success", SUCCESS_MESSAGE);
         form.reset();

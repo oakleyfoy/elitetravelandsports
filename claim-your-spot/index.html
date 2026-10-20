@@ -109,14 +109,6 @@
               data-claim-registration
               novalidate
             >
-              <input
-                type="text"
-                class="inquiry-honeypot"
-                name="_gotcha"
-                tabindex="-1"
-                autocomplete="off"
-                aria-hidden="true"
-              />
               <input type="hidden" name="phone_e164" value="" data-phone-e164 />
 
               <label class="form-field full claim-experience-field">
@@ -162,6 +154,21 @@
                   </span>
                 </label>
               </div>
+
+              <!-- Honeypot after real fields so browsers do not treat it as the first autofill target. -->
+              <input
+                type="text"
+                class="inquiry-honeypot"
+                name="_gotcha"
+                value=""
+                tabindex="-1"
+                autocomplete="new-password"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+                aria-hidden="true"
+                data-honeypot
+              />
 
               <button class="button button-primary" type="submit">Submit Registration Request</button>
               <p class="sms-disclosure">
