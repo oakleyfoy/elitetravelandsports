@@ -5191,12 +5191,18 @@ form.inquiry-form .inquiry-honeypot {
   padding-left: 52px !important;
 }
 
-.claim-spot-page .claim-experience-field {
+.claim-spot-page .claim-experience-field,
+.claim-spot-page .claim-tennis-rating-field,
+.claim-spot-page .claim-traveling-alone-field,
+.claim-spot-page .claim-allergies-field,
+.claim-spot-page .claim-anything-else-field {
   grid-column: 1 / -1;
   min-width: 0;
 }
 
-.claim-spot-page .claim-experience-field select {
+.claim-spot-page .claim-experience-field select,
+.claim-spot-page .claim-tennis-rating-field select,
+.claim-spot-page .claim-traveling-alone-field select {
   width: 100%;
   max-width: 100%;
   min-height: 52px;
@@ -5211,6 +5217,11 @@ form.inquiry-form .inquiry-honeypot {
 
 .claim-spot-page .claim-phone-field {
   grid-column: 1 / -1;
+}
+
+.claim-spot-page .claim-anything-else-field textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 .claim-spot-page .claim-spot-form .sms-options {

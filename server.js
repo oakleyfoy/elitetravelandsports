@@ -11,6 +11,12 @@ const {
   isValidEmail,
   isValidPersonName,
   normalizeCellPhone,
+  normalizeOptionalRegistrationText,
+  normalizeTennisRating,
+  normalizeTravelingAlone,
+  optionalFieldDisplay,
+  ALLERGIES_MAX_LENGTH,
+  ANYTHING_ELSE_MAX_LENGTH,
 } = require("./lib/registration");
 const { handleUpcomingPage, isTemplateFile, isUpcomingPage } = require("./lib/upcoming");
 const { currentClock, loadTrips } = require("./lib/trips");
@@ -469,21 +475,36 @@ function readJsonBody(req) {
   });
 }
 
-function buildRegistrationEmailHtml({ name, email, phoneE164, trip, smsConsent, submittedAt }) {
+function buildRegistrationEmailHtml({
+  name,
+  email,
+  phoneE164,
+  trip,
+  tennisRating,
+  travelingAlone,
+  allergiesDietary,
+  anythingElse,
+  smsConsent,
+  submittedAt,
+}) {
   const rows = [
+    ["Experience", trip.title],
+    ["Trip Date", trip.dates],
+    ["Tennis Rating", tennisRating],
     ["Full Name", name],
     ["Email Address", email],
     ["Cell Phone Number", phoneE164],
-    ["Experience", trip.title],
-    ["Trip Date", trip.dates],
-    ["Submission Date", submittedAt],
     ["SMS Consent", smsConsent],
+    ["Traveling Alone?", travelingAlone],
+    ["Allergies or Dietary Restrictions", optionalFieldDisplay(allergiesDietary)],
+    ["Anything Else We Should Know?", optionalFieldDisplay(anythingElse)],
+    ["Submission Date", submittedAt],
   ]
     .map(
       ([label, value]) => `
         <tr>
           <th align="left" style="padding:10px 12px;border-bottom:1px solid #ececec;width:220px;vertical-align:top;">${escapeHtml(label)}</th>
-          <td style="padding:10px 12px;border-bottom:1px solid #ececec;">${escapeHtml(value)}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #ececec;white-space:pre-wrap;">${escapeHtml(value)}</td>
         </tr>`,
     )
     .join("");
@@ -653,6 +674,32 @@ async function handleRegistration(req, res) {
     return sendJson(res, 400, { error: phoneResult.error });
   }
 
+  const tennisRatingResult = normalizeTennisRating(payload.tennis_rating);
+  if (!tennisRatingResult.ok) {
+    return sendJson(res, 400, { error: tennisRatingResult.error });
+  }
+
+  const travelingAloneResult = normalizeTravelingAlone(payload.traveling_alone);
+  if (!travelingAloneResult.ok) {
+    return sendJson(res, 400, { error: travelingAloneResult.error });
+  }
+
+  const allergiesResult = normalizeOptionalRegistrationText(payload.allergies_dietary, {
+    maxLength: ALLERGIES_MAX_LENGTH,
+    label: "Allergies or dietary restrictions",
+  });
+  if (!allergiesResult.ok) {
+    return sendJson(res, 400, { error: allergiesResult.error });
+  }
+
+  const anythingElseResult = normalizeOptionalRegistrationText(payload.anything_else, {
+    maxLength: ANYTHING_ELSE_MAX_LENGTH,
+    label: "Anything else we should know",
+  });
+  if (!anythingElseResult.ok) {
+    return sendJson(res, 400, { error: anythingElseResult.error });
+  }
+
   let trips;
   try {
     trips = loadTrips();
@@ -673,9 +720,11 @@ async function handleRegistration(req, res) {
   }
 
   const microsoftConfig = getMicrosoftConfig();
-  // Non-PII only: never log names, emails, phones, tokens, or form content.
+  // Non-PII only: never log names, emails, phones, allergy/dietary text, notes, tokens, or secrets.
   console.log("submit-registration received", {
     experience: trip.slug,
+    tennisRating: tennisRatingResult.value,
+    travelingAlone: travelingAloneResult.value,
     hasSmsConsent: true,
   });
   console.log("submit-registration mail config", {
@@ -729,6 +778,10 @@ async function handleRegistration(req, res) {
         email,
         phoneE164: phoneResult.e164,
         trip,
+        tennisRating: tennisRatingResult.value,
+        travelingAlone: travelingAloneResult.value,
+        allergiesDietary: allergiesResult.value,
+        anythingElse: anythingElseResult.value,
         smsConsent: "Yes",
         submittedAt,
       }),
@@ -737,6 +790,8 @@ async function handleRegistration(req, res) {
     // Confirmation shown only after Graph (or safe-test sink) accepts. No automatic deposit link is emailed.
     console.log("submit-registration accepted", {
       experience: trip.slug,
+      tennisRating: tennisRatingResult.value,
+      travelingAlone: travelingAloneResult.value,
       channel: "microsoft-graph",
     });
     return sendJson(res, 200, { ok: true });
