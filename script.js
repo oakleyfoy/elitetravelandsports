@@ -25,18 +25,33 @@ function initRevealMotion() {
     el.classList.add("motion-reveal-pending");
   });
 
+  const reveal = (el) => {
+    el.classList.add("motion-reveal-in");
+  };
+
+  // Tall sections (e.g. Marrakech collage) can be many viewports high. A 0.1 ratio
+  // threshold never fires while only the section heading is on screen, so the whole
+  // gallery stays at opacity: 0. Reveal as soon as any part enters the viewport.
   const io = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add("motion-reveal-in");
+        reveal(entry.target);
         obs.unobserve(entry.target);
       });
     },
-    { rootMargin: "0px 0px -8% 0px", threshold: 0.1 },
+    { rootMargin: "0px 0px -6% 0px", threshold: 0 },
   );
 
-  targets.forEach((el) => io.observe(el));
+  const viewportBottom = window.innerHeight * 0.94;
+  targets.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < viewportBottom && rect.bottom > 0) {
+      reveal(el);
+      return;
+    }
+    io.observe(el);
+  });
 }
 
 if (document.readyState === "loading") {
