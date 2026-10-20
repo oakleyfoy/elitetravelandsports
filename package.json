@@ -4,6 +4,7 @@
   "scripts": {
     "start": "node server.js",
     "preview:sample": "PAST_EXPERIENCES_SAMPLE=1 node server.js",
+    "preview:testimonials-layout": "ELITE_TESTIMONIALS_LAYOUT_PREVIEW=1 PORT=8770 node server.js",
     "test": "node --test tests/*.test.js",
     "qa:viewport": "playwright test tests/viewport-qa.spec.js",
     "serve": "PORT=8765 node server.js"
