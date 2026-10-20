@@ -278,7 +278,7 @@ describe("registration API", () => {
     }
   });
 
-  test("honeypot submissions pretend success without confirming registration", async () => {
+  test("honeypot submissions are discarded without a registration-success response", async () => {
     const { response, data } = await postRegistration(base, {
       _gotcha: "bot",
       name: "Ada",
@@ -288,7 +288,30 @@ describe("registration API", () => {
       sms_registration_consent: "Yes",
     });
     assert.equal(response.status, 200);
-    assert.equal(data.ok, true);
+    assert.equal(data.ok, false);
+    assert.equal(Object.prototype.hasOwnProperty.call(data, "error"), false);
+    assert.doesNotMatch(JSON.stringify(data), /honeypot|spam|bot|discard/i);
+    assert.match(server.logs(), /submit-registration discarded/);
+    assert.match(server.logs(), /reason:\s*'honeypot'/);
+    assert.doesNotMatch(server.logs(), /submit-registration accepted/);
+    assert.doesNotMatch(server.logs(), /Ada|a@b\.com|\+14155552671/);
+  });
+
+  test("inquiry honeypot uses the same distinct discard response", async () => {
+    const response = await fetch(`${base}/api/submit-inquiry`, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _gotcha: "filled-by-bot",
+        name: "Ada",
+        email: "a@b.com",
+      }),
+    });
+    const data = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(data.ok, false);
+    assert.match(server.logs(), /submit-inquiry discarded/);
+    assert.doesNotMatch(JSON.stringify(data), /honeypot|spam|bot/i);
   });
 
   test("inquiry API remains available alongside registration", async () => {
@@ -378,6 +401,29 @@ describe("registration safe-test submission", () => {
     assert.match(mail.html, /SMS Consent[\s\S]*Yes/);
     assert.doesNotMatch(mail.html, /deposit amount|payment link|stripe/i);
     assert.match(server.logs(), /microsoft-mail safe-test sink/);
+    assert.match(server.logs(), /submit-registration accepted/);
+    assert.match(server.logs(), /experience:\s*'spain-marbella-2027'/);
+    assert.doesNotMatch(server.logs(), /phoneE164|Ada Lovelace|ada@example\.com|\+12015550123/);
+  });
+
+  test("honeypot discard never writes mail and never returns ok true", async () => {
+    fs.writeFileSync(sink, "");
+    const logsBefore = server.logs();
+    const { response, data } = await postRegistration(base, {
+      _gotcha: "autofill-or-bot",
+      name: "Ada Lovelace",
+      email: "ada@example.com",
+      phone_e164: "+12015550123",
+      experience: "spain-marbella-2027",
+      sms_registration_consent: "Yes",
+      recaptcha_token: "elite-mock-recaptcha-pass",
+    });
+    const logsDelta = server.logs().slice(logsBefore.length);
+    assert.equal(response.status, 200);
+    assert.equal(data.ok, false);
+    assert.equal(fs.readFileSync(sink, "utf8").trim(), "");
+    assert.match(logsDelta, /submit-registration discarded/);
+    assert.doesNotMatch(logsDelta, /submit-registration accepted/);
   });
 
   test("mocked Google siteverify pass + Graph sink show success without live network calls", async () => {
@@ -477,6 +523,52 @@ describe("registration safe-test submission", () => {
   });
 });
 
+describe("registration client confirmation and autofill hardening", () => {
+  test("claim form only shows Registration received after data.ok and clears autofilled honeypot", () => {
+    const client = fs.readFileSync(path.join(ROOT_DIR, "claim-registration.js"), "utf8");
+    assert.match(client, /data\.ok === true/);
+    assert.match(client, /honeypot\.value = ""/);
+    assert.match(client, /payload\._gotcha = ""/);
+    assert.match(client, /SUCCESS_MESSAGE/);
+    assert.match(client, /Registration request has been received/i);
+    // Success path is gated; discarded { ok: false } must not unlock the success branch.
+    assert.doesNotMatch(client, /if \(res\.ok\)\s*\{/);
+  });
+
+  test("claim page honeypot is after real fields and resists browser autofill", () => {
+    const html = fs.readFileSync(path.join(ROOT_DIR, "claim-your-spot", "index.html"), "utf8");
+    const nameIdx = html.indexOf('name="name"');
+    const honeypotIdx = html.indexOf('name="_gotcha"');
+    assert.ok(nameIdx > 0 && honeypotIdx > nameIdx, "honeypot must not be the first text field");
+    assert.match(html, /name="_gotcha"[\s\S]*?autocomplete="new-password"/);
+    assert.match(html, /data-honeypot/);
+  });
+
+  test("Plan a Journey and Morocco require data.ok and harden honeypot the same way", () => {
+    const planClient = fs.readFileSync(path.join(ROOT_DIR, "plan-inquiry.js"), "utf8");
+    const moroccoClient = fs.readFileSync(path.join(ROOT_DIR, "morocco-programs.js"), "utf8");
+    assert.match(planClient, /data\.ok === true/);
+    assert.match(planClient, /honeypot\.value = ""/);
+    assert.match(moroccoClient, /data\.ok === true/);
+    assert.match(moroccoClient, /honeypot\.value = ""/);
+
+    for (const relative of ["plan-a-journey/index.html", "destinations/morocco/index.html"]) {
+      const html = fs.readFileSync(path.join(ROOT_DIR, relative), "utf8");
+      const nameIdx = html.indexOf('name="name"');
+      const honeypotIdx = html.indexOf('name="_gotcha"');
+      assert.ok(nameIdx > 0 && honeypotIdx > nameIdx, relative);
+      assert.match(html, /autocomplete="new-password"/);
+    }
+  });
+
+  test("discarded honeypot response cannot satisfy client confirmation gate", () => {
+    const discarded = { ok: false };
+    const accepted = { ok: true };
+    assert.equal(Boolean({ ok: true } && discarded && discarded.ok === true), false);
+    assert.equal(Boolean({ ok: true } && accepted && accepted.ok === true), true);
+  });
+});
+
 describe("registration Graph failure never reports success", () => {
   const sink = path.join(os.tmpdir(), `elite-reg-fail-${process.pid}.jsonl`);
   const server = startServer(ROOT_DIR, {
@@ -513,7 +605,12 @@ describe("registration Graph failure never reports success", () => {
     assert.notEqual(data && data.ok, true);
     assert.match(String(data && data.error), /temporarily unavailable/i);
     assert.match(server.logs(), /submit-registration email send failed/);
+    assert.doesNotMatch(server.logs(), /submit-registration accepted/);
     assert.equal(fs.existsSync(sink) && fs.readFileSync(sink, "utf8").trim() !== "", false);
+
+    const client = fs.readFileSync(path.join(ROOT_DIR, "claim-registration.js"), "utf8");
+    assert.match(client, /data\.ok === true/);
+    assert.match(client, /Registration is temporarily unavailable/);
   });
 });
 

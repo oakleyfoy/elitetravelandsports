@@ -189,11 +189,16 @@
     setBusy(true);
 
     try {
+      // Clear autofill residue; server still discards raw posts that send a filled _gotcha.
+      var honeypot = form.querySelector("[data-honeypot], [name='_gotcha']");
+      if (honeypot) honeypot.value = "";
+
       var formData = new FormData(form);
       var payload = Object.fromEntries(formData.entries());
       form.querySelectorAll(".sms-consent input[type='checkbox']").forEach(function (box) {
         payload[box.name] = box.checked ? "Yes" : "No";
       });
+      payload._gotcha = "";
       payload.recaptcha_token = await getRecaptchaToken();
       var res = await fetch(endpoint, {
         method: "POST",
@@ -211,7 +216,8 @@
         /* non-JSON */
       }
 
-      if (res.ok) {
+      // Success only after Graph accept (data.ok). Honeypot discard returns { ok: false }.
+      if (res.ok && data && data.ok === true) {
         showFeedback(
           "success",
           "Thank you—your journey notes are received.",
