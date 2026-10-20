@@ -875,7 +875,7 @@ const server = http.createServer((req, res) => {
   }
 
   if (url.pathname === "/past-experiences" || url.pathname.startsWith("/past-experiences/")) {
-    handlePastExperiences(req, res, url.pathname);
+    handlePastExperiences(req, res, url.pathname, url.searchParams);
     return;
   }
 

@@ -48,6 +48,30 @@
       "experienceSlug": "morocco-marrakech-2026",
       "published": true,
       "featured": false
+    },
+    {
+      "id": "marrakech-2026-jay-coppic",
+      "quote": "great trip!",
+      "displayName": "Jay Coppic",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": false
+    },
+    {
+      "id": "marrakech-2026-traveler-personal-welcome",
+      "quote": "Agree. Thank you Ismael and Samar for making it such a personal welcome and a wonderful experience all round.",
+      "displayName": "Marrakech Traveler",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": false
+    },
+    {
+      "id": "marrakech-2026-traveler-fantastic-trip",
+      "quote": "Thank you for a fantastic trip. You were both very attentive. We will leave you with strong reviews, and we wish you great success with your future company excursions. Safe travels, everyone!",
+      "displayName": "Marrakech Traveler",
+      "experienceSlug": "morocco-marrakech-2026",
+      "published": true,
+      "featured": false
     }
   ]
 }
